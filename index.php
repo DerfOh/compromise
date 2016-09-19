@@ -3,9 +3,12 @@
   <title>PHP Test</title>
   <link rel="stylesheet" type="text/css" href="css/bootstrap.css"> 
  </head>
- 
  <body>
- <?php echo '<p>Hello World</p>'; ?> 
+ <div class="panel panel-default">
+  <div class="panel-body">
+    <?php echo '<p>Hello World</p>'; ?>
+  </div>
+ </div>
  
  </body>
 </html>
