@@ -1,0 +1,34 @@
+{
+  "name": "rewards",
+  "plural": "rewards",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "rewardid": {
+      "type": "string",
+      "required": true
+    },
+    "groupid": {
+      "type": "string"
+    },
+    "rewardname": {
+      "type": "string",
+      "required": true
+    },
+    "pointcost": {
+      "type": "string",
+      "required": true
+    },
+    "rewarddescription": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}
