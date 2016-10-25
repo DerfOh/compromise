@@ -1,0 +1,47 @@
+{
+  "name": "tasks",
+  "plural": "tasks",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "taskid": {
+      "type": "number",
+      "required": true
+    },
+    "groupid": {
+      "type": "number",
+      "required": true
+    },
+    "taskname": {
+      "type": "string",
+      "required": true
+    },
+    "taskdescription": {
+      "type": "string",
+      "required": true
+    },
+    "duedate": {
+      "type": "date",
+      "required": true
+    },
+    "approvalstatus": {
+      "type": "string",
+      "required": true
+    },
+    "completionstatus": {
+      "type": "string",
+      "required": true
+    },
+    "pointvalue": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

@@ -1,4 +1,5 @@
 # CSC 383 Course Project
-## Task List
+## Compromise
 
-The goal of this project is to create a simple LAMP driven todo list with benchmarking built into it.
+The goal of this project is to create a simple rewards based todo list.
+
