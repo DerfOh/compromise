@@ -1,6 +1,12 @@
 {
-  "db": {
-    "name": "db",
-    "connector": "memory"
-  }
+  "mydb": {
+    "name": "mydb",
+    "connector": "mysql",
+    "database": "compromise",
+    "debug": "true",
+    "host":"localhost",
+    "password": "password",
+    "port":"3306",
+    "username":"compromise"
+  } 
 }
