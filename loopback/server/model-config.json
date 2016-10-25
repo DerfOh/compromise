@@ -33,31 +33,31 @@
     "public": false
   },
   "user": {
-    "dataSource": "db",
+    "dataSource": "compromisedb",
     "public": true
   },
   "group": {
-    "dataSource": "db",
+    "dataSource": "compromisedb",
     "public": true
   },
   "rewards": {
-    "dataSource": "db",
+    "dataSource": "compromisedb",
     "public": true
   },
   "rewardrequests": {
-    "dataSource": "db",
+    "dataSource": "compromisedb",
     "public": true
   },
-  "tasks": {
-    "dataSource": "db",
+  "Tasks": {
+    "dataSource": "compromisedb",
     "public": true
   },
   "taskleaders": {
-    "dataSource": "db",
+    "dataSource": "compromisedb",
     "public": true
   },
   "points": {
-    "dataSource": "db",
+    "dataSource": "compromisedb",
     "public": true
   }
 }

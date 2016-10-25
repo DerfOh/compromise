@@ -1,12 +1,16 @@
 {
-  "mydb": {
-    "name": "mydb",
-    "connector": "mysql",
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },  
+  "compromisedb": {
+    "host": "localhost",
+    "port": 3306,
+    "url": "mysql://compromise:password@localhost/compromise",
     "database": "compromise",
-    "debug": "true",
-    "host":"localhost",
     "password": "password",
-    "port":"3306",
-    "username":"compromise"
-  } 
+    "name": "compromisedb",
+    "user": "compromise",
+    "connector": "mysql"
+  }
 }
