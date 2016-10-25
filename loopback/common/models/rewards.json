@@ -8,18 +8,18 @@
   },
   "properties": {
     "rewardid": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "groupid": {
-      "type": "string"
+      "type": "number"
     },
     "rewardname": {
       "type": "string",
       "required": true
     },
     "pointcost": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "rewarddescription": {

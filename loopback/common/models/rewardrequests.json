@@ -8,11 +8,11 @@
   },
   "properties": {
     "requestid": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "rewardid": {
-      "type": "string",
+      "type": "number",
       "required": true
     },
     "fulfillmentstatus": {
