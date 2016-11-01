@@ -93,12 +93,16 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:i]
 
 	case "POST":
-		name := request.PostFormValue("name")
-		st, err := db.Prepare("INSERT INTO pandas(name) VALUES(?)")
+		EmailAddress := request.PostFormValue("EmailAddress")
+		FirstName := request.PostFormValue("FirstName")
+		LastName := request.PostFormValue("LastName")
+		Nickname := request.PostFormValue("Nickname")
+		Password := request.PostFormValue("Password")
+		st, err := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
 		}
-		res, err := st.Exec(name)
+		res, err := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
 		if err != nil {
 			fmt.Print(err)
 		}
@@ -109,14 +113,17 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 
 	case "PUT":
-		name := request.PostFormValue("name")
-		id := request.PostFormValue("id")
+		FirstName := request.PostFormValue("FirstName")
+		LastName := request.PostFormValue("LastName")
+		Nickname := request.PostFormValue("Nickname")
+		Password := request.PostFormValue("Password")
+		EmailAddress := request.PostFormValue("EmailAddress")
 
-		st, err := db.Prepare("UPDATE pandas SET name=? WHERE id=?")
+		st, err := db.Prepare("UPDATE pandas SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
 		if err != nil {
 			fmt.Print(err)
 		}
-		res, err := st.Exec(name, id)
+		res, err := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
 		if err != nil {
 			fmt.Print(err)
 		}
