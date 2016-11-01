@@ -22,13 +22,17 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type quote struct {
-	Id     int
-	Author string
-	Quote  string
+// User to build the properties of what youre working with
+type User struct {
+	//Id           int
+	EmailAddress string
+	FirstName    string
+	LastName     string
+	NickName     string
+	Password     string
 }
 
-// Handle all requests (golint)
+// Handler for all requests
 func Handler(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "text/html")
 	webpage, err := ioutil.ReadFile("index.html")
@@ -38,11 +42,11 @@ func Handler(response http.ResponseWriter, request *http.Request) {
 	fmt.Fprint(response, string(webpage))
 }
 
-// APIHandler Respond to URLs of the form /generic/... (golint)
+// APIHandler Respond to URLs of the form /generic/...
 func APIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:Password123@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
 	if e != nil {
 		fmt.Print(e)
 	}
@@ -60,7 +64,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		st, err := db.Prepare("select * from quotes limit 10")
+		st, err := db.Prepare("select * from Users limit 10")
 		if err != nil {
 			fmt.Print(err)
 		}
@@ -70,12 +74,15 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		i := 0
 		for rows.Next() {
-			var quote string
-			var author string
-			var id int
-			err = rows.Scan(&id, &author, &qoute)
-			quote := &Quote{Id: id, Author: author, Quote: quote}
-			b, err := json.Marshal(quote)
+			//var Id int
+			var EmailAddress string
+			var FirstName string
+			var LastName string
+			var Nickname string
+			var Password string
+			err := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
+			user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
+			b, err := json.Marshal(user)
 			if err != nil {
 				fmt.Println(err)
 				return
