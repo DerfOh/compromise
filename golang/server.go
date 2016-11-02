@@ -119,7 +119,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		Password := request.PostFormValue("Password")
 		EmailAddress := request.PostFormValue("EmailAddress")
 
-		st, err := db.Prepare("UPDATE pandas SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
+		st, err := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
 		if err != nil {
 			fmt.Print(err)
 		}
@@ -134,7 +134,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 	case "DELETE":
 		id := strings.Replace(request.URL.Path, "/api/", "", -1)
-		st, err := db.Prepare("DELETE FROM pandas WHERE id=?")
+		st, err := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		if err != nil {
 			fmt.Print(err)
 		}
