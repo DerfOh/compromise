@@ -24,7 +24,6 @@ import (
 
 // User to build the properties of what youre working with
 type User struct {
-	//Id           int
 	EmailAddress string
 	FirstName    string
 	LastName     string
