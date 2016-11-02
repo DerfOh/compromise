@@ -23,7 +23,8 @@ func main() {
 	portstring := strconv.Itoa(port)
 
 	mux := http.NewServeMux()
-	mux.Handle("/api/", http.HandlerFunc(APIHandler))
+	//mux.Handle("/api/", http.HandlerFunc(APIHandler))
+	mux.Handle("/api/users", http.HandlerFunc(UserAPIHandler))
 	mux.Handle("/", http.HandlerFunc(Handler))
 
 	// Start listing on a given port with these routes on this server.

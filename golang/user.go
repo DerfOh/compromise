@@ -20,7 +20,9 @@ type User struct {
 }
 
 // APIHandler Respond to URLs of the form /generic/...
-func APIHandler(response http.ResponseWriter, request *http.Request) {
+
+// UserAPIHandler responds to /user/
+func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
 	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
@@ -110,7 +112,7 @@ func APIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:1]
 	case "DELETE":
-		id := strings.Replace(request.URL.Path, "/api/", "", -1)
+		id := strings.Replace(request.URL.Path, "/api/user", "", -1)
 		st, err := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		if err != nil {
 			fmt.Print(err)
