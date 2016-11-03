@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -43,13 +42,13 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		st, err := db.Prepare("select * from Users limit 10")
+		st, getErr := db.Prepare("select * from Users limit 10")
 		if err != nil {
-			fmt.Print(err)
+			fmt.Print(getErr)
 		}
-		rows, err := st.Query()
-		if err != nil {
-			fmt.Print(err)
+		rows, getErr := st.Query()
+		if getErr != nil {
+			fmt.Print(getErr)
 		}
 		i := 0
 		for rows.Next() {
@@ -59,11 +58,11 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 			var LastName string
 			var Nickname string
 			var Password string
-			err := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
+			getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
 			user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
-			b, err := json.Marshal(user)
-			if err != nil {
-				fmt.Println(err)
+			b, getErr := json.Marshal(user)
+			if getErr != nil {
+				fmt.Println(getErr)
 				return
 			}
 			result[i] = fmt.Sprintf("%s", string(b))
@@ -77,17 +76,17 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
 		Password := request.PostFormValue("Password")
-		st, err := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
+		st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
 		}
-		res, err := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
-		if err != nil {
-			fmt.Print(err)
+		res, postErr := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
+		if postErr != nil {
+			fmt.Print(postErr)
 		}
 
 		if res != nil {
-			result[0] = "true"
+			result[0] = "User Added"
 		}
 		result = result[:1]
 
@@ -98,32 +97,32 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		Password := request.PostFormValue("Password")
 		EmailAddress := request.PostFormValue("EmailAddress")
 
-		st, err := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
+		st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
 		if err != nil {
-			fmt.Print(err)
+			fmt.Print(putErr)
 		}
-		res, err := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
-		if err != nil {
-			fmt.Print(err)
+		res, putErr := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
+		if putErr != nil {
+			fmt.Print(putErr)
 		}
 
 		if res != nil {
-			result[0] = "true"
+			result[0] = "User Modified"
 		}
 		result = result[:1]
 	case "DELETE":
-		id := strings.Replace(request.URL.Path, "/api/user", "", -1)
-		st, err := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
-		if err != nil {
-			fmt.Print(err)
+		EmailAddress := request.PostFormValue("EmailAddress")
+		st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
 		}
-		res, err := st.Exec(id)
-		if err != nil {
-			fmt.Print(err)
+		res, deleteErr := st.Exec(EmailAddress)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
 		}
 
 		if res != nil {
-			result[0] = "true"
+			result[0] = "User Deleted"
 		}
 		result = result[:1]
 
