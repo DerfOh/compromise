@@ -25,6 +25,9 @@ func main() {
 	mux := http.NewServeMux()
 	//mux.Handle("/api/", http.HandlerFunc(APIHandler))
 	mux.Handle("/api/users", http.HandlerFunc(UserAPIHandler))
+	mux.Handle("/api/tasks", http.HandlerFunc(TaskAPIHandler))
+	mux.Handle("/api/rewards", http.HandlerFunc(RewardAPIHandler))
+	mux.Handle("/api/groups", http.HandlerFunc(GroupAPIHandler))
 	mux.Handle("/", http.HandlerFunc(Handler))
 
 	// Start listing on a given port with these routes on this server.
