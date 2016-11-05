@@ -38,14 +38,15 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	//can't define dynamic slice in golang
-	var result = make([]string, 1000)
+	var result = make([]string, 1)
 
 	switch request.Method {
 	case "POST":
 		Nickname := request.PostFormValue("Nickname")
 		fmt.Printf("Nickname is %s\n", Nickname)
 		//Nickname := "Coolguy1234"
-		//Password := request.PostFormValue("Password")
+		ProvidedPassword := request.PostFormValue("Password")
+		fmt.Printf("Password provided is: %s\n", ProvidedPassword)
 
 		// SELECT Password FROM Users WHERE Nickname=?
 		var Password string
@@ -60,8 +61,14 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		// Compare variable returned from db query to provided Password
-
-		//return true if true
+		if Password == ProvidedPassword {
+			//return true if true
+			fmt.Println("Password Match")
+			result[0] = "Match"
+		} else {
+			fmt.Println("Password Mismatch")
+			result[0] = "Invalid"
+		}
 
 	default:
 	}
