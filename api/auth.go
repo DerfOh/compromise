@@ -14,8 +14,8 @@ import (
 
 // Auth to build the properties of what youre working with
 type Auth struct {
-	Nickname string
-	Password string
+	EmailAddress string
+	Password     string
 }
 
 // APIHandler Respond to URLs of the form /generic/...
@@ -43,18 +43,18 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "POST":
-		Nickname := request.PostFormValue("Nickname")
-		fmt.Printf("Nickname is %s\n", Nickname)
-		//Nickname := "Coolguy1234"
+		EmailAddress := request.PostFormValue("EmailAddress")
+		fmt.Printf("EmailAddress is %s\n", EmailAddress)
+		//EmailAddress := "Coolguy1234"
 		ProvidedPassword := request.PostFormValue("Password")
 		fmt.Printf("Password provided is: %s\n", ProvidedPassword)
 
-		// SELECT Password FROM Users WHERE Nickname=?
+		// SELECT Password FROM Users WHERE EmailAddress=?
 		var Password string
-		queryErr := db.QueryRow("SELECT Password FROM Users WHERE Nickname=?", Nickname).Scan(&Password)
+		queryErr := db.QueryRow("SELECT Password FROM Users WHERE EmailAddress=?", EmailAddress).Scan(&Password)
 		switch {
 		case queryErr == sql.ErrNoRows:
-			log.Printf("No user with Nickname: %s\n", Nickname)
+			log.Printf("No user with EmailAddress: %s\n", EmailAddress)
 		case queryErr != nil:
 			log.Fatal(queryErr)
 		default:
