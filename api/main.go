@@ -10,15 +10,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	port := 80
+	port := 8080
 	var err string
 	portstring := strconv.Itoa(port)
 
@@ -37,4 +39,15 @@ func main() {
 	if errs != nil {
 		log.Fatal("ListenAndServe error: ", err)
 	}
+}
+
+func cleanJSON(s string) string {
+	fmt.Println(s)
+	s = strings.Replace(s, "\\\"", "\"", -1)
+	fmt.Println(s)
+	s = strings.Replace(s, "}\"", "}", -1)
+	fmt.Println(s)
+	s = strings.Replace(s, "\"{", "{", -1)
+	fmt.Println(s)
+	return s
 }

@@ -52,7 +52,6 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		i := 0
 		for rows.Next() {
-			//var Id int
 			var EmailAddress string
 			var FirstName string
 			var LastName string
@@ -65,6 +64,12 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 				fmt.Println(getErr)
 				return
 			}
+			// s := string(b)
+			// fmt.Println(s)
+			// s = strings.Replace(s, "\\\"", "\"", -1)
+			// fmt.Println(s)
+			// s = strings.Trim(s, "\"")
+			// fmt.Println(s)
 			result[i] = fmt.Sprintf("%s", string(b))
 			i++
 		}
@@ -125,6 +130,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 			result[0] = "User Deleted"
 		}
 		result = result[:1]
+		fmt.Println(result)
 
 	default:
 	}
@@ -135,8 +141,22 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	jsonString := cleanJSON(string(json))
+	// s := string(json)
+	// fmt.Println(s)
+	// s = strings.Replace(s, "\\\"", "\"", -1)
+	// fmt.Println(s)
+	// s = strings.Replace(s, "}\"", "}", -1)
+	// fmt.Println(s)
+	// s = strings.Replace(s, "\"{", "{", -1)
+	// fmt.Println(s)
+
+	// s = strconv.Unquote(s)
+	// fmt.Println(s)
+
 	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", string(json))
+	fmt.Fprintf(response, "%v", jsonString)
+	//fmt.Fprintf(response, "%v", s)
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
 	db.Close()
 }
