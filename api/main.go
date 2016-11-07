@@ -10,6 +10,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -20,9 +21,18 @@ import (
 )
 
 func main() {
-	port := 8080
+
+	port := flag.Int("port", 1234, "an int")
+
+	// Execute the command-line parsing.
+	flag.Parse()
+
+	// Show port and trail in logs
+	fmt.Println("port:", *port)
+	fmt.Println("tail:", flag.Args())
+
 	var err string
-	portstring := strconv.Itoa(port)
+	portstring := strconv.Itoa(*port)
 
 	mux := http.NewServeMux()
 	//mux.Handle("/api/", http.HandlerFunc(APIHandler))
