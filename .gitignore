@@ -1,16 +1,4 @@
-<<<<<<< HEAD
-dev/*
-*.iml
-.gradle
-/local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-=======
-*.csv
+.csv
 *.dat
 *.iml
 *.log
@@ -23,10 +11,7 @@ dev/*
 *.tgz
 *.xml
 .DS_Store
-.idea
+/compromise-app/.idea
 .project
 .strong-pm
 coverage
-node_modules
-npm-debug.log
->>>>>>> master
