@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
 // Create items
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tasks, R.drawable.ic_menu_manage, R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.rewards, R.drawable.ic_menu_gallery, R.color.colorPrimary);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tasks, R.drawable.ic_tasks, R.color.colorPrimary);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.rewards, R.drawable.ic_rewards, R.color.colorPrimary);
 
 // Add items
         bottomNavigation.addItem(item1);
