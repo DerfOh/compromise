@@ -52,12 +52,12 @@ func main() {
 }
 
 func cleanJSON(s string) string {
-	fmt.Println(s)
+	// fmt.Println(s)
 	s = strings.Replace(s, "\\\"", "\"", -1)
-	fmt.Println(s)
+	// fmt.Println(s)
 	s = strings.Replace(s, "}\"", "}", -1)
-	fmt.Println(s)
+	// fmt.Println(s)
 	s = strings.Replace(s, "\"{", "{", -1)
-	fmt.Println(s)
+	// fmt.Println(s)
 	return s
 }

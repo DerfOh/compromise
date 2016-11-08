@@ -29,7 +29,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		fmt.Print(e)
 	}
 
-	//set mime type to JSON
+	// set mime type to JSON
 	response.Header().Set("Content-type", "application/json")
 
 	err := request.ParseForm()
@@ -37,7 +37,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, fmt.Sprintf("error parsing url %v", err), 500)
 	}
 
-	//can't define dynamic slice in golang
+	// can't define dynamic slice in golang
 	var result = make([]string, 1000)
 
 	switch request.Method {
@@ -64,12 +64,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 				fmt.Println(getErr)
 				return
 			}
-			// s := string(b)
-			// fmt.Println(s)
-			// s = strings.Replace(s, "\\\"", "\"", -1)
-			// fmt.Println(s)
-			// s = strings.Trim(s, "\"")
-			// fmt.Println(s)
+
 			result[i] = fmt.Sprintf("%s", string(b))
 			i++
 		}
@@ -141,18 +136,8 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	// Clean up JSON before returning
 	jsonString := cleanJSON(string(json))
-	// s := string(json)
-	// fmt.Println(s)
-	// s = strings.Replace(s, "\\\"", "\"", -1)
-	// fmt.Println(s)
-	// s = strings.Replace(s, "}\"", "}", -1)
-	// fmt.Println(s)
-	// s = strings.Replace(s, "\"{", "{", -1)
-	// fmt.Println(s)
-
-	// s = strconv.Unquote(s)
-	// fmt.Println(s)
 
 	// Send the text diagnostics to the client.
 	fmt.Fprintf(response, "%v", jsonString)
