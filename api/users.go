@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -111,7 +112,8 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:1]
 	case "DELETE":
-		EmailAddress := request.PostFormValue("EmailAddress")
+		EmailAddress := strings.Replace(request.URL.Path, "/api/users/", "", -1)
+		// fmt.Print(strings.Replace(request.URL.Path, "/api/users/", "", -1))
 		st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		if deleteErr != nil {
 			fmt.Print(deleteErr)
@@ -122,10 +124,9 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-			result[0] = "User Deleted"
+			result[0] = EmailAddress + " removed"
 		}
 		result = result[:1]
-		fmt.Println(result)
 
 	default:
 	}
