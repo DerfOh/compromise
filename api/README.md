@@ -20,10 +20,10 @@ And open http://IP_or_localhost:1234/api
 
 # User API Spec
 
-GET /api/ to get all the Users.
+GET /api/users/ to get all the Users.
 
-POST /api/ to add new Users {EmailAddress,  FirstName, LastName, Nickname, Password}
+POST /api/users/ to add new Users {EmailAddress,  FirstName, LastName, Nickname, Password}
 
-DELETE /api/EmailAddress to remove that one User.
+DELETE /api/users/EmailAddress to remove that one User.
 
-PUT /api/ to update details {EmailAddress,  FirstName, LastName, Nickname, Password}
+PUT /api/users/ to update details {EmailAddress,  FirstName, LastName, Nickname, Password}

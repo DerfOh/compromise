@@ -36,11 +36,11 @@ func main() {
 
 	mux := http.NewServeMux()
 	//mux.Handle("/api/", http.HandlerFunc(APIHandler))
-	mux.Handle("/api/users", http.HandlerFunc(UserAPIHandler))     // Handler for User interactions
-	mux.Handle("/api/tasks", http.HandlerFunc(TaskAPIHandler))     // Handler for Task interactions
-	mux.Handle("/api/rewards", http.HandlerFunc(RewardAPIHandler)) // Handler for Reward interactions
-	mux.Handle("/api/groups", http.HandlerFunc(GroupAPIHandler))   // Hanlder for Group interactions
-	mux.Handle("/api/auth", http.HandlerFunc(AuthAPIHandler))      // Handler for Authentication of users
+	mux.Handle("/api/users/", http.HandlerFunc(UserAPIHandler))     // Handler for User interactions
+	mux.Handle("/api/tasks/", http.HandlerFunc(TaskAPIHandler))     // Handler for Task interactions
+	mux.Handle("/api/rewards/", http.HandlerFunc(RewardAPIHandler)) // Handler for Reward interactions
+	mux.Handle("/api/groups/", http.HandlerFunc(GroupAPIHandler))   // Hanlder for Group interactions
+	mux.Handle("/api/auth/", http.HandlerFunc(AuthAPIHandler))      // Handler for Authentication of users
 	mux.Handle("/", http.HandlerFunc(Handler))
 
 	// Start listing on a given port with these routes on this server.
@@ -52,12 +52,12 @@ func main() {
 }
 
 func cleanJSON(s string) string {
-	fmt.Println(s)
+	// fmt.Println(s)
 	s = strings.Replace(s, "\\\"", "\"", -1)
-	fmt.Println(s)
+	// fmt.Println(s)
 	s = strings.Replace(s, "}\"", "}", -1)
-	fmt.Println(s)
+	// fmt.Println(s)
 	s = strings.Replace(s, "\"{", "{", -1)
-	fmt.Println(s)
+	// fmt.Println(s)
 	return s
 }
