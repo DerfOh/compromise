@@ -44,39 +44,39 @@ public class MainActivity extends AppCompatActivity
 
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-// Create items
+        // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tasks, R.drawable.ic_tasks, R.color.colorPrimary);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.rewards, R.drawable.ic_rewards, R.color.colorPrimary);
 
-// Add items
+        // Add items
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
 
-// Set background color
+        // Set background color
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
 
-// Disable the translation inside the CoordinatorLayout
+        // Disable the translation inside the CoordinatorLayout
         bottomNavigation.setBehaviorTranslationEnabled(false);
 
-// Change colors
+        // Change colors
         bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
         bottomNavigation.setInactiveColor(Color.parseColor("#303F9F"));
 
-// Force to tint the drawable (useful for font with icon for example)
+        // Force to tint the drawable (useful for font with icon for example)
         bottomNavigation.setForceTint(true);
 
-// Force the titles to be displayed (against Material Design guidelines!)
+        // Force the titles to be displayed (against Material Design guidelines!)
         bottomNavigation.setForceTitlesDisplay(true);
-// Or force the titles to be hidden (against Material Design guidelines, too!)
+        // Or force the titles to be hidden (against Material Design guidelines, too!)
         bottomNavigation.setForceTitlesHide(true);
 
-// Use colored navigation with circle reveal effect
+        // Use colored navigation with circle reveal effect
         bottomNavigation.setColored(true);
 
-// Set current item programmatically
+        // Set current item programmatically
         bottomNavigation.setCurrentItem(0);
 
-// Set listeners
+        // Set listeners
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
