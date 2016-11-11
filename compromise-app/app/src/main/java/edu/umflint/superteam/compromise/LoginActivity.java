@@ -1,43 +1,22 @@
 package edu.umflint.superteam.compromise;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInstaller;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.AsyncTask;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +25,6 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -60,25 +37,19 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import static android.Manifest.permission.READ_CONTACTS;
-
 /**
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
 
+    Session session = null;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
-
-
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-    Session session = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
+        mPasswordView = (EditText) findViewById(R.id.password);
 
         Button contactUs = (Button) findViewById(R.id.contact_us_btn);
         contactUs.setOnClickListener(new OnClickListener(){
@@ -120,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
                 RetrieveFeedTask task = new RetrieveFeedTask();
-                task.execute();
+                task.execute(mEmailView.getText().toString());
             }
 
         class RetrieveFeedTask extends AsyncTask<String, Void, String> {
@@ -129,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     Message message = new MimeMessage(session);
                     message.setFrom(new InternetAddress("Compromise@nicholassammut.com"));
-                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("Compromise@nicholassammut.com"));
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(params[0]));
                     message.setSubject("Compromise Android Application Password");
                     message.setContent("Your password is Compromise123!", "text/html ; charset=utf-8");
                     Transport.send(message);
@@ -146,19 +118,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     });
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.signin_btn || id == EditorInfo.IME_NULL) {
-                    //attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
-
         Button mEmailSignInButton = (Button) findViewById(R.id.signin_btn);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
