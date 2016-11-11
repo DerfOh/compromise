@@ -3,3 +3,4 @@ SELECT Users.EmailAddress, Users.FirstName, Users.LastName, Users.Nickname, Poin
 SELECT * FROM Tasks WHERE GroupId = '3'; #Get Tasks By Group ID
 SELECT * FROM Rewards WHERE GroupId = '2'; #Get Rewards By Group ID
 SELECT * FROM TaskLeaders WHERE EmailAddress = 'chicks0@fda.gov' AND GroupId = '4'; #Find If Task Leader
+SELECT Users.Password FROM Users WHERE EmailAddress = 'chicks0@fda.gov'; #Retrieve Password For Lost Password Email
