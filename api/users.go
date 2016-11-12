@@ -16,7 +16,8 @@ type User struct {
 	FirstName    string
 	LastName     string
 	NickName     string
-	Password     string
+	TotalPoints  int
+	//Password     string
 }
 
 // APIHandler Respond to URLs of the form /generic/...
@@ -43,11 +44,13 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		st, getErr := db.Prepare("select * from Users limit 10")
+		GroupId := strings.Replace(request.URL.Path, "/api/users/", "", -1)
+
+		st, getErr := db.Prepare("SELECT Users.EmailAddress, Users.FirstName, Users.LastName, Users.Nickname, Points.TotalPoints FROM Users JOIN Points ON Users.EmailAddress = Points.EmailAddress JOIN Groups ON Groups.GroupId = Points.GroupId WHERE Groups.GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
 		}
-		rows, getErr := st.Query()
+		rows, getErr := st.Query(GroupId)
 		if getErr != nil {
 			fmt.Print(getErr)
 		}
@@ -57,9 +60,9 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 			var FirstName string
 			var LastName string
 			var Nickname string
-			var Password string
-			getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
-			user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
+			var TotalPoints int
+			getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &TotalPoints)
+			user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, TotalPoints: TotalPoints}
 			b, getErr := json.Marshal(user)
 			if getErr != nil {
 				fmt.Println(getErr)
@@ -137,10 +140,8 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// Clean up JSON before returning
-	jsonString := cleanJSON(string(json))
-
 	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", jsonString)
+	fmt.Fprintf(response, "%v", cleanJSON(string(json)))
 
 	db.Close()
 }
