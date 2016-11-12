@@ -5,12 +5,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// User to build the properties of what youre working with
-type group struct {
+// Group properties
+type Group struct {
+	GroupId     int
+	GroupName   string
+	TotalPoints int
 }
 
 // APIHandler Respond to URLs of the form /generic/...
@@ -37,33 +41,37 @@ func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		// st, getErr := db.Prepare("select * from Users limit 10")
-		// if err != nil {
-		// 	fmt.Print(getErr)
-		// }
-		// rows, getErr := st.Query()
-		// if getErr != nil {
-		// 	fmt.Print(getErr)
-		// }
-		// i := 0
-		// for rows.Next() {
-		// 	//var Id int
-		// 	var EmailAddress string
-		// 	var FirstName string
-		// 	var LastName string
-		// 	var Nickname string
-		// 	var Password string
-		// 	getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
-		// 	user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
-		// 	b, getErr := json.Marshal(user)
-		// 	if getErr != nil {
-		// 		fmt.Println(getErr)
-		// 		return
-		// 	}
-		// 	result[i] = fmt.Sprintf("%s", string(b))
-		// 	i++
-		// }
-		// result = result[:i]
+		EmailAddress := strings.Replace(request.URL.Path, "/api/groups/", "", -1)
+		//fmt.Println(EmailAddress)
+
+		st, getErr := db.Prepare("SELECT Points.GroupId, Groups.GroupName, Points.TotalPoints FROM Points JOIN Groups ON Points.GroupId = Groups.GroupId WHERE EmailAddress=?")
+		if err != nil {
+			fmt.Print(getErr)
+		}
+
+		if err != nil {
+			fmt.Print(getErr)
+		}
+		rows, getErr := st.Query(EmailAddress)
+		if getErr != nil {
+			fmt.Print(getErr)
+		}
+		i := 0
+		for rows.Next() {
+			var GroupId int
+			var GroupName string
+			var TotalPoints int
+			getErr := rows.Scan(&GroupId, &GroupName, &TotalPoints)
+			group := &Group{GroupId: GroupId, GroupName: GroupName, TotalPoints: TotalPoints}
+			b, getErr := json.Marshal(group)
+			if getErr != nil {
+				fmt.Println(getErr)
+				return
+			}
+			result[i] = fmt.Sprintf("%s", string(b))
+			i++
+		}
+		result = result[:i]
 
 	case "POST":
 	// 	EmailAddress := request.PostFormValue("EmailAddress")
@@ -130,8 +138,7 @@ func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", string(json))
-	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
+	// Send the text diagnostics to the client and remove backslashes
+	fmt.Fprintf(response, "%v", cleanJSON(string(json)))
 	db.Close()
 }
