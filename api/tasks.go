@@ -47,7 +47,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 	switch request.Method {
 	case "GET":
 		GroupId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
-		fmt.Println(GroupId)
+		//fmt.Println(GroupId)
 		st, getErr := db.Prepare("select * from Tasks where GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
@@ -146,7 +146,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", string(json))
+	fmt.Fprintf(response, "%v", cleanJSON(string(json)))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
 	db.Close()
 }
