@@ -5,12 +5,18 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 // Reward to build the properties of what youre working with
 type Reward struct {
+	RewardId          int
+	GroupId           int
+	RewardName        string
+	PointCost         int
+	RewardDescription string
 }
 
 // APIHandler Respond to URLs of the form /generic/...
@@ -37,33 +43,35 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		// st, getErr := db.Prepare("select * from Users limit 10")
-		// if err != nil {
-		// 	fmt.Print(getErr)
-		// }
-		// rows, getErr := st.Query()
-		// if getErr != nil {
-		// 	fmt.Print(getErr)
-		// }
-		// i := 0
-		// for rows.Next() {
-		// 	//var Id int
-		// 	var EmailAddress string
-		// 	var FirstName string
-		// 	var LastName string
-		// 	var Nickname string
-		// 	var Password string
-		// 	getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
-		// 	user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
-		// 	b, getErr := json.Marshal(user)
-		// 	if getErr != nil {
-		// 		fmt.Println(getErr)
-		// 		return
-		// 	}
-		// 	result[i] = fmt.Sprintf("%s", string(b))
-		// 	i++
-		// }
-		// result = result[:i]
+		GroupId := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
+		//fmt.Println(GroupId)
+		st, getErr := db.Prepare("SELECT * FROM Rewards WHERE GroupId=?")
+		if err != nil {
+			fmt.Print(getErr)
+		}
+		rows, getErr := st.Query(GroupId)
+		if getErr != nil {
+			fmt.Print(getErr)
+		}
+		i := 0
+		for rows.Next() {
+			var RewardId int
+			var GroupId int
+			var RewardName string
+			var PointCost int
+			var RewardDescription string
+
+			getErr := rows.Scan(&RewardId, &GroupId, &RewardName, &PointCost, &RewardDescription)
+			reward := &Reward{RewardId: RewardId, GroupId: GroupId, RewardName: RewardName, PointCost: PointCost, RewardDescription: RewardDescription}
+			b, getErr := json.Marshal(reward)
+			if getErr != nil {
+				fmt.Println(getErr)
+				return
+			}
+			result[i] = fmt.Sprintf("%s", string(b))
+			i++
+		}
+		result = result[:i]
 
 	case "POST":
 	// 	EmailAddress := request.PostFormValue("EmailAddress")
@@ -130,8 +138,8 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", string(json))
+	// Send the text diagnostics to the client. Clean backslashes from json
+	fmt.Fprintf(response, "%v", cleanJSON(string(json)))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
 	db.Close()
 }
