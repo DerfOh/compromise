@@ -23,7 +23,7 @@ type Group struct {
 func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp("+DataBaseAddress+":3306)/compromise")
+	db, e := sql.Open("mysql", dbUserName+":"+dbPassword+"@tcp("+dbAddress+":3306)/compromise")
 	if e != nil {
 		fmt.Print(e)
 	}

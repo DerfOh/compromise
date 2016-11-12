@@ -20,19 +20,34 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var DataBaseAddress string
+// dbAddress the api will connect to, is set by flag, defaults to localhost
+var dbAddress string
+
+// dbUserName database username
+var dbUserName string
+
+// dbPassword the password to be used to connect to the database
+var dbPassword string
 
 func main() {
 
 	port := flag.Int("port", 1234, "an int")
-	DataBaseAddress := flag.String("database", "localhost", "a string")
+	dbAddress := flag.String("dbaddress", "localhost", "a string")
+	dbUserName := flag.String("dbuser", "compromise", "a string")
+	dbPassword := flag.String("dbpassword", "password", "a string")
 
 	// Execute the command-line parsing.
 	flag.Parse()
 
-	// Show port and trail in logs
-	fmt.Println("api port:", *port)
-	fmt.Println("database address:", *DataBaseAddress)
+	// Show flag trail in logs, do not show dbPassword intentionally
+	fmt.Println("api port:\t\t", *port)
+	fmt.Println("database address:\t", *dbAddress)
+	fmt.Println("database user:\t\t", *dbUserName)
+	if *dbPassword == "password" {
+		fmt.Println("default db password:\t true")
+	} else {
+		fmt.Println("default db password:\t false")
+	}
 	fmt.Println("Comments, remarks, general thoughts:", flag.Args())
 
 	var err string
