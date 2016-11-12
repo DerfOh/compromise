@@ -28,7 +28,7 @@ type Task struct {
 func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)
 	}

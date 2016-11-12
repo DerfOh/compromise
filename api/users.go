@@ -25,7 +25,7 @@ type User struct {
 func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)
 	}
@@ -113,7 +113,6 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 	case "DELETE":
 		EmailAddress := strings.Replace(request.URL.Path, "/api/users/", "", -1)
-		// fmt.Print(strings.Replace(request.URL.Path, "/api/users/", "", -1))
 		st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		if deleteErr != nil {
 			fmt.Print(deleteErr)
@@ -142,7 +141,6 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	// Send the text diagnostics to the client.
 	fmt.Fprintf(response, "%v", jsonString)
-	//fmt.Fprintf(response, "%v", s)
-	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
+
 	db.Close()
 }
