@@ -1,11 +1,11 @@
-// server.go
+// main process
 //
 // REST APIs with Go and MySql.
 //
 // Usage:
 //
 //   # run go server in the background
-//   $ go run server.go
+//   $ go run *.go
 
 package main
 
@@ -20,16 +20,20 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+var DataBaseAddress string
+
 func main() {
 
 	port := flag.Int("port", 1234, "an int")
+	DataBaseAddress := flag.String("database", "localhost", "a string")
 
 	// Execute the command-line parsing.
 	flag.Parse()
 
 	// Show port and trail in logs
-	fmt.Println("port:", *port)
-	fmt.Println("tail:", flag.Args())
+	fmt.Println("api port:", *port)
+	fmt.Println("database address:", *DataBaseAddress)
+	fmt.Println("Comments, remarks, general thoughts:", flag.Args())
 
 	var err string
 	portstring := strconv.Itoa(*port)

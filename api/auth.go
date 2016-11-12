@@ -24,7 +24,7 @@ type Auth struct {
 func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", "compromise:password@tcp("+DataBaseAddress+":3306)/compromise")
 	if e != nil {
 		fmt.Print(e)
 	}

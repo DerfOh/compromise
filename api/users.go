@@ -24,8 +24,10 @@ type User struct {
 // UserAPIHandler responds to /user/
 func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
+	//Define address given flags passed into binary
+	//databaseAddress := *databaseAddress
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", "compromise:password@tcp("+DataBaseAddress+":3306)/compromise")
 	if e != nil {
 		fmt.Print(e)
 	}
