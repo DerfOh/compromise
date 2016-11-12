@@ -1,7 +1,9 @@
 package edu.umflint.superteam.compromise;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
@@ -38,45 +41,48 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String name = preferences.getString("EmailAddress", "");
+        Toast.makeText(getApplication().getBaseContext(), name, Toast.LENGTH_SHORT).show();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-// Create items
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tasks, R.drawable.ic_menu_manage, R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.rewards, R.drawable.ic_menu_gallery, R.color.colorPrimary);
+        // Create items
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tasks, R.drawable.ic_tasks, R.color.colorPrimary);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.rewards, R.drawable.ic_rewards, R.color.colorPrimary);
 
-// Add items
+        // Add items
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
 
-// Set background color
+        // Set background color
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
 
-// Disable the translation inside the CoordinatorLayout
+        // Disable the translation inside the CoordinatorLayout
         bottomNavigation.setBehaviorTranslationEnabled(false);
 
-// Change colors
+        // Change colors
         bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
         bottomNavigation.setInactiveColor(Color.parseColor("#303F9F"));
 
-// Force to tint the drawable (useful for font with icon for example)
+        // Force to tint the drawable (useful for font with icon for example)
         bottomNavigation.setForceTint(true);
 
-// Force the titles to be displayed (against Material Design guidelines!)
+        // Force the titles to be displayed (against Material Design guidelines!)
         bottomNavigation.setForceTitlesDisplay(true);
-// Or force the titles to be hidden (against Material Design guidelines, too!)
+        // Or force the titles to be hidden (against Material Design guidelines, too!)
         bottomNavigation.setForceTitlesHide(true);
 
-// Use colored navigation with circle reveal effect
+        // Use colored navigation with circle reveal effect
         bottomNavigation.setColored(true);
 
-// Set current item programmatically
+        // Set current item programmatically
         bottomNavigation.setCurrentItem(0);
 
-// Set listeners
+        // Set listeners
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
