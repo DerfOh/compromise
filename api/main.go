@@ -29,22 +29,27 @@ var dbUserName string
 // dbPassword the password to be used to connect to the database
 var dbPassword string
 
+// dbConnectionURL the url used to perform db connection
+var dbConnectionURL string
+
 func main() {
 
 	port := flag.Int("port", 1234, "an int")
 	dbAddress := flag.String("dbaddress", "localhost", "a string")
 	dbUserName := flag.String("dbuser", "compromise", "a string")
 	dbPassword := flag.String("dbpassword", "password", "a string")
+	dbConnectionURL = *dbUserName + ":" + *dbPassword + "@tcp(" + *dbAddress + ":3306)/compromise"
 
 	// Execute the command-line parsing.
 	flag.Parse()
 
-	// Show flag trail in logs, do not show dbPassword intentionally
+	// Show flag trail in logs, do not show dbPassword intentionally, just check if the password is the default
 	fmt.Println("api port:\t\t", *port)
 	fmt.Println("database address:\t", *dbAddress)
 	fmt.Println("database user:\t\t", *dbUserName)
 	if *dbPassword == "password" {
 		fmt.Println("default db password:\t true")
+		fmt.Println("connection url:", dbConnectionURL)
 	} else {
 		fmt.Println("default db password:\t false")
 	}

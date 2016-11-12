@@ -19,7 +19,7 @@ type Reward struct {
 func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", dbUserName+":"+dbPassword+"@tcp("+dbAddress+":3306)/compromise")
+	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)
 	}
