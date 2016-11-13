@@ -7,7 +7,7 @@ go build -o ~/api
 cp index.html ~/
 
 # start the app using port 8080 (production)
-exec ~/api -port 8080 -database localhost
+exec ~/api -port 8080
 
 # start the app using port 1234 (test)
 # exec ~/api -port 1234
