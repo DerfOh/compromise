@@ -4,18 +4,28 @@ machine:
 
 dependencies:
   pre:
+    # set up golang dependencies
     - go get github.com/derfoh/compromise/api
 
+    # set up android dependencies
+    - echo y | android update sdk --no-ui --all --filter "package-name"
+
   override:
+    # overrides for golang
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
     - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/api"
 
 test:
   pre:
+    # go tests
     - go vet ./...
 
   override:
+    # go overrides
     - go test ./...
+    # android overrides
+    - ./compromise-app/gradlew assembleRelease
+    - cp -r compromise-app/build/outputs $CIRCLE_ARTIFACTS
 
 # deployment:
 #   production:
