@@ -4,11 +4,11 @@ machine:
 
 dependencies:
   pre:
-    - go get github.com/derfoh/compromise
+    - go get github.com/derfoh/compromise/api
 
   override:
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
-    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/"
+    - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/api"
 
 test:
   pre:
