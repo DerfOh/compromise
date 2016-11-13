@@ -8,7 +8,9 @@ dependencies:
     - go get github.com/derfoh/compromise/api
 
     # set up android dependencies
-    - echo y | android update sdk --no-ui --all --filter "package-name"
+    - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-24,android-24,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+    #- echo n | android create avd -n testing -f -t android-24 --abi "default"
+
 
   override:
     # overrides for golang
@@ -24,8 +26,15 @@ test:
     # go overrides
     - go test ./...
     # android overrides
-    - ./compromise-app/gradlew assembleRelease
-    - cp -r compromise-app/build/outputs $CIRCLE_ARTIFACTS
+    - ls compromise-app/build
+    - chmod +x compromise-app/gradlew
+    - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
+        background: true
+        parallel: true
+    - ./compromise-app/gradlew build
+    # - cp -r compromise-app/build/generated $CIRCLE_ARTIFACTS
+
+
 
 # deployment:
 #   production:
