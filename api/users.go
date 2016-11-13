@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -15,7 +16,8 @@ type User struct {
 	FirstName    string
 	LastName     string
 	NickName     string
-	Password     string
+	TotalPoints  int
+	//Password     string
 }
 
 // APIHandler Respond to URLs of the form /generic/...
@@ -24,12 +26,12 @@ type User struct {
 func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)
 	}
 
-	//set mime type to JSON
+	// set mime type to JSON
 	response.Header().Set("Content-type", "application/json")
 
 	err := request.ParseForm()
@@ -37,16 +39,18 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, fmt.Sprintf("error parsing url %v", err), 500)
 	}
 
-	//can't define dynamic slice in golang
+	// can't define dynamic slice in golang
 	var result = make([]string, 1000)
 
 	switch request.Method {
 	case "GET":
-		st, getErr := db.Prepare("select * from Users limit 10")
+		GroupId := strings.Replace(request.URL.Path, "/api/users/", "", -1)
+
+		st, getErr := db.Prepare("SELECT Users.EmailAddress, Users.FirstName, Users.LastName, Users.Nickname, Points.TotalPoints FROM Users JOIN Points ON Users.EmailAddress = Points.EmailAddress JOIN Groups ON Groups.GroupId = Points.GroupId WHERE Groups.GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
 		}
-		rows, getErr := st.Query()
+		rows, getErr := st.Query(GroupId)
 		if getErr != nil {
 			fmt.Print(getErr)
 		}
@@ -56,20 +60,15 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 			var FirstName string
 			var LastName string
 			var Nickname string
-			var Password string
-			getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
-			user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
+			var TotalPoints int
+			getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &TotalPoints)
+			user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, TotalPoints: TotalPoints}
 			b, getErr := json.Marshal(user)
 			if getErr != nil {
 				fmt.Println(getErr)
 				return
 			}
-			// s := string(b)
-			// fmt.Println(s)
-			// s = strings.Replace(s, "\\\"", "\"", -1)
-			// fmt.Println(s)
-			// s = strings.Trim(s, "\"")
-			// fmt.Println(s)
+
 			result[i] = fmt.Sprintf("%s", string(b))
 			i++
 		}
@@ -116,7 +115,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:1]
 	case "DELETE":
-		EmailAddress := request.PostFormValue("EmailAddress")
+		EmailAddress := strings.Replace(request.URL.Path, "/api/users/", "", -1)
 		st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		if deleteErr != nil {
 			fmt.Print(deleteErr)
@@ -127,10 +126,9 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-			result[0] = "User Deleted"
+			result[0] = EmailAddress + " removed"
 		}
 		result = result[:1]
-		fmt.Println(result)
 
 	default:
 	}
@@ -141,22 +139,10 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	jsonString := cleanJSON(string(json))
-	// s := string(json)
-	// fmt.Println(s)
-	// s = strings.Replace(s, "\\\"", "\"", -1)
-	// fmt.Println(s)
-	// s = strings.Replace(s, "}\"", "}", -1)
-	// fmt.Println(s)
-	// s = strings.Replace(s, "\"{", "{", -1)
-	// fmt.Println(s)
-
-	// s = strconv.Unquote(s)
-	// fmt.Println(s)
-
+	// Clean up JSON before returning
 	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", jsonString)
-	//fmt.Fprintf(response, "%v", s)
-	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
+	//fmt.Fprintf(response, "%v", CleanJSON(string(json)))
+	fmt.Fprintf(response, "%v", string(json))
+
 	db.Close()
 }

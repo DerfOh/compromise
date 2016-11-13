@@ -5,12 +5,21 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 // Task to build the properties of what youre working with
 type Task struct {
+	TaskId           int
+	GroupId          string
+	TaskName         string
+	TaskDescription  string
+	DateDue          string
+	ApprovalStatus   string
+	CompletionStatus string
+	PointValue       int
 }
 
 // APIHandler Respond to URLs of the form /generic/...
@@ -19,7 +28,7 @@ type Task struct {
 func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
-	db, e := sql.Open("mysql", "compromise:password@tcp(localhost:3306)/compromise")
+	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)
 	}
@@ -37,35 +46,41 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case "GET":
-		// st, getErr := db.Prepare("select * from Users limit 10")
-		// if err != nil {
-		// 	fmt.Print(getErr)
-		// }
-		// rows, getErr := st.Query()
-		// if getErr != nil {
-		// 	fmt.Print(getErr)
-		// }
-		// i := 0
-		// for rows.Next() {
-		// 	//var Id int
-		// 	var EmailAddress string
-		// 	var FirstName string
-		// 	var LastName string
-		// 	var Nickname string
-		// 	var Password string
-		// 	getErr := rows.Scan(&EmailAddress, &FirstName, &LastName, &Nickname, &Password)
-		// 	user := &User{EmailAddress: EmailAddress, FirstName: FirstName, LastName: LastName, NickName: Nickname, Password: Password}
-		// 	b, getErr := json.Marshal(user)
-		// 	if getErr != nil {
-		// 		fmt.Println(getErr)
-		// 		return
-		// 	}
-		// 	result[i] = fmt.Sprintf("%s", string(b))
-		// 	i++
-		// }
-		// result = result[:i]
+		GroupId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
+		//fmt.Println(GroupId)
+		st, getErr := db.Prepare("select * from Tasks where GroupId=?")
+		if err != nil {
+			fmt.Print(getErr)
+		}
+		rows, getErr := st.Query(GroupId)
+		if getErr != nil {
+			fmt.Print(getErr)
+		}
+		i := 0
+		for rows.Next() {
+			//var Id int
+			var TaskId int
+			var GroupId string
+			var TaskDescription string
+			var DateDue string
+			var TaskName string
+			var ApprovalStatus string
+			var CompletionStatus string
+			var PointValue int
 
-	case "POST":
+			getErr := rows.Scan(&TaskId, &GroupId, &TaskName, &TaskDescription, &DateDue, &ApprovalStatus, &CompletionStatus, &PointValue)
+			task := &Task{TaskId: TaskId, GroupId: GroupId, TaskName: TaskName, TaskDescription: TaskDescription, DateDue: DateDue, ApprovalStatus: ApprovalStatus, CompletionStatus: CompletionStatus, PointValue: PointValue}
+			b, getErr := json.Marshal(task)
+			if getErr != nil {
+				fmt.Println(getErr)
+				return
+			}
+			result[i] = fmt.Sprintf("%s", string(b))
+			i++
+		}
+		result = result[:i]
+
+	// case "POST":
 	// 	EmailAddress := request.PostFormValue("EmailAddress")
 	// 	FirstName := request.PostFormValue("FirstName")
 	// 	LastName := request.PostFormValue("LastName")
@@ -131,7 +146,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// Send the text diagnostics to the client.
-	fmt.Fprintf(response, "%v", string(json))
+	fmt.Fprintf(response, "%v", CleanJSON(string(json)))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
 	db.Close()
 }
