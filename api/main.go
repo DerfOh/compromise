@@ -32,6 +32,10 @@ var dbPassword string
 // dbConnectionURL the url used to perform db connection
 var dbConnectionURL string
 
+// conenction message
+var logMessage string
+
+// main funtion for app
 func main() {
 
 	port := flag.Int("port", 1234, "an int")
@@ -68,14 +72,16 @@ func main() {
 	mux.Handle("/", http.HandlerFunc(Handler))
 
 	// Start listing on a given port with these routes on this server.
-	log.Print("Listening on port " + portstring + " ... ")
+	logMessage = "Listening on port " + portstring + " ... "
+	log.Print(logMessage)
 	errs := http.ListenAndServe(":"+portstring, mux)
 	if errs != nil {
 		log.Fatal("ListenAndServe error: ", err)
 	}
+
 }
 
-func cleanJSON(s string) string {
+func CleanJSON(s string) string {
 	// fmt.Println(s)
 	s = strings.Replace(s, "\\\"", "\"", -1)
 	// fmt.Println(s)

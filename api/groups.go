@@ -139,6 +139,6 @@ func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// Send the text diagnostics to the client and remove backslashes
-	fmt.Fprintf(response, "%v", cleanJSON(string(json)))
+	fmt.Fprintf(response, "%v", CleanJSON(string(json)))
 	db.Close()
 }
