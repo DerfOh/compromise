@@ -139,7 +139,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 	}
 
 	// Send the text diagnostics to the client. Clean backslashes from json
-	fmt.Fprintf(response, "%v", cleanJSON(string(json)))
+	fmt.Fprintf(response, "%v", CleanJSON(string(json)))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
 	db.Close()
 }
