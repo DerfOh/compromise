@@ -1,12 +1,15 @@
 package edu.umflint.superteam.compromise;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +19,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -23,30 +28,103 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    public class UserFindGroups extends AsyncTask<Void, Void, JSONArray> {
+
+        private final String mEmail;
+        private StringBuffer response;
+
+        UserFindGroups(String email) {
+            mEmail = email;
+        }
+
+        @Override
+        protected JSONArray doInBackground(Void... params) {
+            // TODO: attempt authentication against a network service.
+
+            try {
+                String url = "http://api.compromise.rocks:8080/api/groups/" + mEmail;
+                URL obj = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+
+                int responseCode = con.getResponseCode();
+                Log.i("Groups", "Sending 'GET' request to URL : " + url);
+                Log.i("Groups", "Response Code : " + responseCode);
+
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+            } catch (Exception ex) {
+                Log.e("Groups", ex.toString());
+                return null;
+            }
+
+            //print result
+            Log.i("Groups", response.toString());
+
+            if (!response.toString().isEmpty()) {
+                try {
+                    JSONArray jsonObj = new JSONArray(response.toString());
+                    return jsonObj;
+                } catch (Exception ex) {
+                    return null;
+                }
+
+            } else {
+                return null;
+            }
+        }
+
+        protected void onPostExecute(final JSONArray array) {
+            int groupId = 0;
+            String groupName = "";
+            int points = 0;
+            NavigationView nav = (NavigationView) findViewById(R.id.nav_view);
+            Menu menu = nav.getMenu();
+
+            try {
+                if (array != null) {
+
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject row = array.getJSONObject(i);
+                        groupId = row.getInt("GroupId");
+                        groupName = row.getString("GroupName");
+                        points = row.getInt("TotalPoints");
+                        menu.add(0, groupId, 0, groupName + "\t\t\tPoints:" + points);
+                    }
+                } else {
+
+                }
+            } catch (Exception ex) {
+
+            }
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String name = preferences.getString("EmailAddress", "");
-        Toast.makeText(getApplication().getBaseContext(), name, Toast.LENGTH_SHORT).show();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
@@ -86,7 +164,14 @@ public class MainActivity extends AppCompatActivity
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-                // Do something cool here...
+                if(position == 0)
+                {
+                    toolbar.setTitle("Tasks!!!");
+                    Toast.makeText(getApplication().getBaseContext(), "Tasks!", Toast.LENGTH_SHORT).show();
+                } else if (position == 1) {
+                    toolbar.setTitle("Rewards!!!");
+                    Toast.makeText(getApplication().getBaseContext(), "Rewards!", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });
@@ -95,6 +180,31 @@ public class MainActivity extends AppCompatActivity
                 // Manage the new y position
             }
         });
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        UserFindGroups groupTask = new UserFindGroups(prefs.getString("EmailAddress", ""));
+        groupTask.execute((Void) null);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView.OnNavigationItemSelectedListener item_click_listener = new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+
+                int id = item.getItemId();
+
+                Toast.makeText(getApplication().getBaseContext(), "You Chose " + id, Toast.LENGTH_LONG).show();
+
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        };
+        navigationView.setNavigationItemSelectedListener(item_click_listener);
+
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
     @Override
@@ -111,6 +221,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        TextView loggedInAccount = (TextView) findViewById(R.id.loggedInAccount);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        loggedInAccount.setText(prefs.getString("EmailAddress", ""));
+
         return true;
     }
 
@@ -127,30 +242,5 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 }

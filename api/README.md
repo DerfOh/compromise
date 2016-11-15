@@ -18,12 +18,6 @@
 
 And open http://IP_or_localhost:1234/api
 
-# User API Spec
+# API Documentation
 
-GET /api/users/ to get all the Users.
-
-POST /api/users/ to add new Users {EmailAddress,  FirstName, LastName, Nickname, Password}
-
-DELETE /api/users/EmailAddress to remove that one User.
-
-PUT /api/users/ to update details {EmailAddress,  FirstName, LastName, Nickname, Password}
+The api documentation can be found [Here](https://documenter.getpostman.com/view/1058924/compromise/2PLrnk)
