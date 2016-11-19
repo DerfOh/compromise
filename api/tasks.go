@@ -47,7 +47,6 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 	switch request.Method {
 	case "GET":
 		GroupId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
-		//fmt.Println(GroupId)
 		st, getErr := db.Prepare("select * from Tasks where GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
@@ -104,40 +103,43 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 
 	case "PUT":
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	//
-	// 	st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
-	// 	if err != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	// 	res, putErr := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
-	// 	if putErr != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Modified"
-	// 	}
-	// 	result = result[:1]
+		TaskId := request.PostFormValue("TaskId")
+		GroupId := request.PostFormValue("GroupId")
+		TaskName := request.PostFormValue("TaskName")
+		TaskDescription := request.PostFormValue("TaskDescription")
+		DateDue := request.PostFormValue("DateDue")
+		ApprovalStatus := request.PostFormValue("ApprovalStatus")
+		CompletionStatus := request.PostFormValue("CompletionStatus")
+		PointValue := request.PostFormValue("PointValue")
+
+		st, putErr := db.Prepare("UPDATE Tasks SET GroupId=?, TaskName=?, TaskDescription=?, DateDue=?, ApprovalStatus=?, CompletionStatus=?, PointValue=? WHERE TaskId=?")
+		if err != nil {
+			fmt.Print(putErr)
+		}
+		res, putErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, ApprovalStatus, CompletionStatus, PointValue, TaskId)
+		if putErr != nil {
+			fmt.Print(putErr)
+		}
+
+		if res != nil {
+			result[0] = "Task Modified"
+		}
+		result = result[:1]
 	case "DELETE":
-		// EmailAddress := request.PostFormValue("EmailAddress")
-		// st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		// res, deleteErr := st.Exec(EmailAddress)
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		//
-		// if res != nil {
-		// 	result[0] = "User Deleted"
-		// }
-		// result = result[:1]
+		TaskId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM Tasks WHERE TaskId=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+		res, deleteErr := st.Exec(TaskId)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+
+		if res != nil {
+			result[0] = "Task Deleted"
+		}
+		result = result[:1]
 
 	default:
 	}
