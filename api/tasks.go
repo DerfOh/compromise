@@ -80,26 +80,29 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	// case "POST":
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
-	// 	if err != nil {
-	// 		fmt.Print(err)
-	// 	}
-	// 	res, postErr := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
-	// 	if postErr != nil {
-	// 		fmt.Print(postErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Added"
-	// 	}
-	// 	result = result[:1]
-	//
+	case "POST":
+		//TaskId :=
+		GroupId := request.PostFormValue("GroupId")
+		TaskName := request.PostFormValue("TaskName")
+		TaskDescription := request.PostFormValue("TaskDescription")
+		DateDue := request.PostFormValue("DateDue")
+		ApprovalStatus := request.PostFormValue("ApprovalStatus")
+		CompletionStatus := request.PostFormValue("CompletionStatus")
+		PointValue := request.PostFormValue("PointValue")
+		st, postErr := db.Prepare("INSERT INTO Tasks(`groupid`, `taskname`, `taskdescription`, `datedue`, `approvalstatus`, `completionstatus`, `pointvalue`) VALUES(?,?,?,?,?,?,?)")
+		if err != nil {
+			fmt.Print(err)
+		}
+		res, postErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, ApprovalStatus, CompletionStatus, PointValue)
+		if postErr != nil {
+			fmt.Print(postErr)
+		}
+
+		if res != nil {
+			result[0] = "Task Added"
+		}
+		result = result[:1]
+
 	case "PUT":
 	// 	FirstName := request.PostFormValue("FirstName")
 	// 	LastName := request.PostFormValue("LastName")
