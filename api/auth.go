@@ -1,4 +1,12 @@
 // Simple auth endpoint. Needs to be swapped out for something more sophisticated eventually.
+/*
+ This really needs to be handled differently. It gets the job done for now
+ though, the password is sent as a response then sending the password is
+ handled within the application in future itorations it would be a better
+ idea to handle this through the use of a one-time login token that is put in
+ place of the password in the Users table then once the user logs in they
+ are prompted to reset their password to a new one.
+*/
 
 package main
 
@@ -8,7 +16,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -19,9 +26,11 @@ type Auth struct {
 	Password     string
 }
 
+var authenticated bool
+
 // APIHandler Respond to URLs of the form /generic/...
 
-// AuthAPIHandler responds to /auth/
+// AuthAPIHandler responds to /retievepassword/
 func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
@@ -40,34 +49,8 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//can't define dynamic slice in golang
 	// var result = make([]string, 1)
-	var result string
 
 	switch request.Method {
-
-	/*
-	 This really needs to be handled differently. It gets the job done for now
-	 though, the password is sent as a response then sending the password is
-	 handled within the application in future itorations it would be a better
-	 idea to handle this through the use of a one-time login token that is put in
-	 place of the password in the Users table then once the user logs in they
-	 are prompted to reset their password to a new one.
-	*/
-
-	case GET:
-		EmailAddress := strings.Replace(request.URL.Path, "/api/auth/", "", -1)
-		// fmt.Printf("EmailAddress is %s\n", EmailAddress)
-		var Password string
-		queryErr := db.QueryRow("SELECT Password FROM Users WHERE EmailAddress=?", EmailAddress).Scan(&Password)
-		switch {
-		case queryErr == sql.ErrNoRows:
-			log.Printf("No user with EmailAddress: %s\n", EmailAddress)
-		case queryErr != nil:
-			log.Fatal(queryErr)
-		default:
-			result = "No user with EmailAddress"
-		}
-		result = Password
-
 	case POST:
 		EmailAddress := request.PostFormValue("EmailAddress")
 		// fmt.Printf("EmailAddress is %s\n", EmailAddress)
@@ -89,22 +72,22 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 			//return true if true
 			//fmt.Println("Password Match")
 			//result[0] = "Match"
-			result = "true"
+			authenticated = true
 		} else {
 			//fmt.Println("Password Mismatch")
 			//result[0] = "Invalid"
-			result = "false"
+			authenticated = false
 		}
 
 	default:
+		authenticated = false
 	}
 
-	json, err := json.Marshal(result)
+	json, err := json.Marshal(authenticated)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-
 	// Send the text diagnostics to the client.
 	fmt.Fprintf(response, "%v", string(json))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
