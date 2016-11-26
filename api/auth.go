@@ -1,4 +1,4 @@
-// Simple auth endpoint. This probably needs to be swapped out for something more sophisticated at some point
+// Simple auth endpoint. Needs to be swapped out for something more sophisticated eventually.
 
 package main
 
@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -39,10 +40,35 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//can't define dynamic slice in golang
 	// var result = make([]string, 1)
-	var result bool
+	var result string
 
 	switch request.Method {
-	case "POST":
+
+	/*
+	 This really needs to be handled differently. It gets the job done for now
+	 though, the password is sent as a response then sending the password is
+	 handled within the application in future itorations it would be a better
+	 idea to handle this through the use of a one-time login token that is put in
+	 place of the password in the Users table then once the user logs in they
+	 are prompted to reset their password to a new one.
+	*/
+
+	case GET:
+		EmailAddress := strings.Replace(request.URL.Path, "/api/auth/", "", -1)
+		// fmt.Printf("EmailAddress is %s\n", EmailAddress)
+		var Password string
+		queryErr := db.QueryRow("SELECT Password FROM Users WHERE EmailAddress=?", EmailAddress).Scan(&Password)
+		switch {
+		case queryErr == sql.ErrNoRows:
+			log.Printf("No user with EmailAddress: %s\n", EmailAddress)
+		case queryErr != nil:
+			log.Fatal(queryErr)
+		default:
+			result = "No user with EmailAddress"
+		}
+		result = Password
+
+	case POST:
 		EmailAddress := request.PostFormValue("EmailAddress")
 		// fmt.Printf("EmailAddress is %s\n", EmailAddress)
 		ProvidedPassword := request.PostFormValue("Password")
@@ -63,11 +89,11 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 			//return true if true
 			//fmt.Println("Password Match")
 			//result[0] = "Match"
-			result = true
+			result = "true"
 		} else {
 			//fmt.Println("Password Mismatch")
 			//result[0] = "Invalid"
-			result = false
+			result = "false"
 		}
 
 	default:
