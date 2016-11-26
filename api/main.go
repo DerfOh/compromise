@@ -20,26 +20,32 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// dbAddress the api will connect to, is set by flag, defaults to localhost
+// dbAddress the api will connect to, is set by flag, defaults to localhost passed in via args
 var dbAddress string
 
-// dbUserName database username
+// dbUserName database username passed in via args
 var dbUserName string
 
-// dbPassword the password to be used to connect to the database
+// dbPassword the password to be used to connect to the database passed in via args
 var dbPassword string
 
-// dbConnectionURL the url used to perform db connection
+// dbConnectionURL the url used to perform db connection passed in via args
 var dbConnectionURL string
 
 // conenction message
 var logMessage string
 
-// Set up constants for request type
-var GET string = "GET"
-var POST string = "POST"
-var PUT string = "PUT"
-var DELETE string = "DELETE"
+// GET string constant
+var GET = "GET"
+
+// POST string constant
+var POST = "POST"
+
+// PUT string constant
+var PUT = "PUT"
+
+// DELETE string constant
+var DELETE = "DELETE"
 
 // main funtion for app
 func main() {
