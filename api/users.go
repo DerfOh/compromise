@@ -43,7 +43,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 	var result = make([]string, 1000)
 
 	switch request.Method {
-	case "GET":
+	case GET:
 		GroupId := strings.Replace(request.URL.Path, "/api/users/", "", -1)
 
 		st, getErr := db.Prepare("SELECT Users.EmailAddress, Users.FirstName, Users.LastName, Users.Nickname, Points.TotalPoints FROM Users JOIN Points ON Users.EmailAddress = Points.EmailAddress JOIN Groups ON Groups.GroupId = Points.GroupId WHERE Groups.GroupId=?")
@@ -74,7 +74,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	case "POST":
+	case POST:
 		EmailAddress := request.PostFormValue("EmailAddress")
 		FirstName := request.PostFormValue("FirstName")
 		LastName := request.PostFormValue("LastName")
@@ -94,7 +94,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:1]
 
-	case "PUT":
+	case PUT:
 		FirstName := request.PostFormValue("FirstName")
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
@@ -114,7 +114,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 			result[0] = "User Modified"
 		}
 		result = result[:1]
-	case "DELETE":
+	case DELETE:
 		EmailAddress := strings.Replace(request.URL.Path, "/api/users/", "", -1)
 		st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		if deleteErr != nil {
