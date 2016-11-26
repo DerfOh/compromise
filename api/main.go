@@ -35,6 +35,12 @@ var dbConnectionURL string
 // conenction message
 var logMessage string
 
+// Set up constants for request type
+var GET string = "GET"
+var POST string = "POST"
+var PUT string = "PUT"
+var DELETE string = "DELETE"
+
 // main funtion for app
 func main() {
 
@@ -81,6 +87,7 @@ func main() {
 
 }
 
+// CleanJSON to remove extra slashes from returned json objects
 func CleanJSON(s string) string {
 	// fmt.Println(s)
 	s = strings.Replace(s, "\\\"", "\"", -1)
