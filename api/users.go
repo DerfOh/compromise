@@ -44,13 +44,13 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case GET:
-		GroupId := strings.Replace(request.URL.Path, "/api/users/", "", -1)
+		GroupID := strings.Replace(request.URL.Path, "/api/users/", "", -1)
 
 		st, getErr := db.Prepare("SELECT Users.EmailAddress, Users.FirstName, Users.LastName, Users.Nickname, Points.TotalPoints FROM Users JOIN Points ON Users.EmailAddress = Points.EmailAddress JOIN Groups ON Groups.GroupId = Points.GroupId WHERE Groups.GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
 		}
-		rows, getErr := st.Query(GroupId)
+		rows, getErr := st.Query(GroupID)
 		if getErr != nil {
 			fmt.Print(getErr)
 		}

@@ -12,8 +12,8 @@ import (
 
 // Reward to build the properties of what youre working with
 type Reward struct {
-	RewardId          int
-	GroupId           int
+	RewardID          int
+	GroupID           int
 	RewardName        string
 	PointCost         int
 	RewardDescription string
@@ -43,26 +43,26 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	switch request.Method {
 	case GET:
-		GroupId := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
+		GroupID := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
 		//fmt.Println(GroupId)
 		st, getErr := db.Prepare("SELECT * FROM Rewards WHERE GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
 		}
-		rows, getErr := st.Query(GroupId)
+		rows, getErr := st.Query(GroupID)
 		if getErr != nil {
 			fmt.Print(getErr)
 		}
 		i := 0
 		for rows.Next() {
-			var RewardId int
-			var GroupId int
+			var RewardID int
+			var GroupID int
 			var RewardName string
 			var PointCost int
 			var RewardDescription string
 
-			getErr := rows.Scan(&RewardId, &GroupId, &RewardName, &PointCost, &RewardDescription)
-			reward := &Reward{RewardId: RewardId, GroupId: GroupId, RewardName: RewardName, PointCost: PointCost, RewardDescription: RewardDescription}
+			getErr := rows.Scan(&RewardID, &GroupID, &RewardName, &PointCost, &RewardDescription)
+			reward := &Reward{RewardID: RewardID, GroupID: GroupID, RewardName: RewardName, PointCost: PointCost, RewardDescription: RewardDescription}
 			b, getErr := json.Marshal(reward)
 			if getErr != nil {
 				fmt.Println(getErr)
