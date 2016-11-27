@@ -57,7 +57,6 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		i := 0
 		for rows.Next() {
-			//var Id int
 			var TaskId int
 			var GroupId string
 			var TaskDescription string

@@ -12,7 +12,7 @@ import (
 
 // Group properties
 type Group struct {
-	GroupID     int
+	GroupId     int
 	GroupName   string
 	TotalPoints int
 }
@@ -58,11 +58,11 @@ func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		i := 0
 		for rows.Next() {
-			var GroupID int
+			var GroupId int
 			var GroupName string
 			var TotalPoints int
-			getErr := rows.Scan(&GroupID, &GroupName, &TotalPoints)
-			group := &Group{GroupID: GroupID, GroupName: GroupName, TotalPoints: TotalPoints}
+			getErr := rows.Scan(&GroupId, &GroupName, &TotalPoints)
+			group := &Group{GroupId: GroupId, GroupName: GroupName, TotalPoints: TotalPoints}
 			b, getErr := json.Marshal(group)
 			if getErr != nil {
 				fmt.Println(getErr)
