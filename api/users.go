@@ -141,8 +141,8 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	// Clean up JSON before returning
 	// Send the text diagnostics to the client.
-	//fmt.Fprintf(response, "%v", CleanJSON(string(json)))
-	fmt.Fprintf(response, "%v", string(json))
+	fmt.Fprintf(response, "%v", CleanJSON(string(json)))
+	//fmt.Fprintf(response, "%v", string(json))
 
 	db.Close()
 }
