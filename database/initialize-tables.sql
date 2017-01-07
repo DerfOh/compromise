@@ -1,5 +1,5 @@
 /* Tables to initialize the sql database  */
-CREATE TABLE Users
+CREATE TABLE compromise.Users
 (
 EmailAddress varchar(255),
 FirstName varchar(255),
@@ -9,14 +9,14 @@ Password varchar(255),
 PRIMARY KEY(EmailAddress)
 );
 
-CREATE TABLE Groups
+CREATE TABLE compromise.Groups
 (
 GroupId int AUTO_INCREMENT,
 GroupName varchar(255),
 PRIMARY KEY (GroupId)
 );
 
-CREATE TABLE Rewards
+CREATE TABLE compromise.Rewards
 (
 RewardId int AUTO_INCREMENT,
 GroupId int,
@@ -28,7 +28,7 @@ CONSTRAINT fk_GroupReward FOREIGN KEY (GroupId)
 REFERENCES Groups (GroupId)
 );
 
-CREATE TABLE RewardRequests
+CREATE TABLE compromise.RewardRequests
 (
 RequestId int AUTO_INCREMENT,
 RewardId int,
@@ -38,7 +38,7 @@ CONSTRAINT fk_RewardRequest FOREIGN KEY (RewardId)
 REFERENCES Rewards (RewardId)
 );
 
-CREATE TABLE Tasks
+CREATE TABLE compromise.Tasks
 (
 TaskId int AUTO_INCREMENT,
 GroupId int,
@@ -53,7 +53,7 @@ CONSTRAINT fk_GroupTask FOREIGN KEY (GroupId)
 REFERENCES Groups(GroupId)
 );
 
-CREATE TABLE TaskLeaders
+CREATE TABLE compromise.TaskLeaders
 (
 TaskLeaderId int AUTO_INCREMENT,
 EmailAddress varchar(255),
@@ -65,7 +65,7 @@ CONSTRAINT fk_GroupUser FOREIGN KEY (EmailAddress)
 REFERENCES Users (EmailAddress)
 );
 
-CREATE TABLE Points
+CREATE TABLE compromise.Points
 (
 PointId int AUTO_INCREMENT,
 TotalPoints int DEFAULT 0,
