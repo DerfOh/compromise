@@ -54,10 +54,12 @@ func main() {
 	dbAddress := flag.String("dbaddress", "localhost", "a string")
 	dbUserName := flag.String("dbuser", "compromise", "a string")
 	dbPassword := flag.String("dbpassword", "password", "a string")
-	dbConnectionURL = *dbUserName + ":" + *dbPassword + "@tcp(" + *dbAddress + ":3306)/compromise"
+	//dbConnectionURL = *dbUserName + ":" + *dbPassword + "@tcp(" + *dbAddress + ":3306)/compromise"
 
 	// Execute the command-line parsing.
 	flag.Parse()
+
+    dbConnectionURL = *dbUserName + ":" + *dbPassword + "@tcp(" + *dbAddress + ":3306)/compromise"
 
 	// Show flag trail in logs, do not show dbPassword intentionally, just check if the password is the default
 	fmt.Println("api port:\t\t", *port)
