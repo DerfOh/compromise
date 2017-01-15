@@ -13,7 +13,7 @@ func Handler(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-type", "text/html")
 	webpage, err := ioutil.ReadFile("index.html")
 	if err != nil {
-		http.Error(response, fmt.Sprintf("home.html file error %v", err), 500)
+		http.Error(response, fmt.Sprintf("index.html file error %v", err), 500)
 	}
 	fmt.Fprint(response, string(webpage))
 }

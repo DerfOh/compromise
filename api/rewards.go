@@ -42,7 +42,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 	var result = make([]string, 1000)
 
 	switch request.Method {
-	case "GET":
+	case GET:
 		GroupId := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
 		//fmt.Println(GroupId)
 		st, getErr := db.Prepare("SELECT * FROM Rewards WHERE GroupId=?")
@@ -73,7 +73,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	case "POST":
+	case POST:
 	// 	EmailAddress := request.PostFormValue("EmailAddress")
 	// 	FirstName := request.PostFormValue("FirstName")
 	// 	LastName := request.PostFormValue("LastName")
@@ -93,7 +93,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 	// 	}
 	// 	result = result[:1]
 	//
-	case "PUT":
+	case PUT:
 	// 	FirstName := request.PostFormValue("FirstName")
 	// 	LastName := request.PostFormValue("LastName")
 	// 	Nickname := request.PostFormValue("Nickname")
@@ -113,7 +113,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 	// 		result[0] = "User Modified"
 	// 	}
 	// 	result = result[:1]
-	case "DELETE":
+	case DELETE:
 		// EmailAddress := request.PostFormValue("EmailAddress")
 		// st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
 		// if deleteErr != nil {
