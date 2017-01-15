@@ -45,7 +45,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 	var result = make([]string, 1000)
 
 	switch request.Method {
-	case "GET":
+	case GET:
 		GroupId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
 		st, getErr := db.Prepare("select * from Tasks where GroupId=?")
 		if err != nil {
@@ -57,7 +57,6 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		i := 0
 		for rows.Next() {
-			//var Id int
 			var TaskId int
 			var GroupId string
 			var TaskDescription string
@@ -79,7 +78,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	case "POST":
+	case POST:
 		//TaskId :=
 		GroupId := request.PostFormValue("GroupId")
 		TaskName := request.PostFormValue("TaskName")
@@ -102,7 +101,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:1]
 
-	case "PUT":
+	case PUT:
 		TaskId := request.PostFormValue("TaskId")
 		GroupId := request.PostFormValue("GroupId")
 		TaskName := request.PostFormValue("TaskName")
@@ -125,7 +124,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 			result[0] = "Task Modified"
 		}
 		result = result[:1]
-	case "DELETE":
+	case DELETE:
 		TaskId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
 		st, deleteErr := db.Prepare("DELETE FROM Tasks WHERE TaskId=?")
 		if deleteErr != nil {

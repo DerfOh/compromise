@@ -1,0 +1,19 @@
+# compromise-proxy:
+#   image: derfoh/compromise-proxy
+#   links:
+#     - compromise-api
+#   ports:
+#     - "80:80"
+#   roles:
+#     - global
+lb:
+  image: dockercloud/haproxy
+  links:
+    - compromise-api
+  ports:
+    - "80:80"
+  roles:
+    - global
+compromise-api:
+  image: derfoh/compromise-api
+  target_num_containers: 2
