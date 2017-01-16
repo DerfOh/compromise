@@ -19,7 +19,7 @@ dependencies:
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
     - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/api"
     - docker info
-    - docker build --rm=false -t derfoh/compromise-api .
+    - docker build --rm=false -t derfoh/compromise-api ./...
 
 test:
   pre:
