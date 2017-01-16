@@ -16,6 +16,8 @@ dependencies:
     # overrides for golang
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
     - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/api"
+    - docker info
+    - docker build --rm=false -t derfoh/compromise-api .
 
 test:
   pre:
@@ -25,6 +27,8 @@ test:
   override:
     # go overrides
     - go test ./...
+    - docker run -d -p 1234:80 derfoh/compromise-api; sleep 10
+    - curl --retry 10 --retry-delay 30 -v http://localhost/
     # android overrides
     - ls compromise-app/build
     - chmod +x compromise-app/gradlew
@@ -36,8 +40,9 @@ test:
 
 
 
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - ./build_and_deploy.sh ./...
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push derfoh/compromise-api
