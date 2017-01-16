@@ -1,6 +1,8 @@
 machine:
   environment:
     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+  services:
+    - docker
 
 dependencies:
   pre:
@@ -17,7 +19,7 @@ dependencies:
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
     - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/api"
     - docker info
-    - docker build --rm=false -t derfoh/compromise-api .
+    - docker build --rm=false -t derfoh/compromise-api /home/ubuntu/compromise/api/
 
 test:
   pre:
@@ -27,7 +29,7 @@ test:
   override:
     # go overrides
     - go test ./...
-    - docker run -d -p 1234:80 derfoh/compromise-api; sleep 10
+    - docker run -d -p 80:80 derfoh/compromise-api; sleep 10
     - curl --retry 10 --retry-delay 30 -v http://localhost/
     # android overrides
     - ls compromise-app/build
