@@ -1,4 +1,4 @@
-![Build Status](http://circleci-badges-max.herokuapp.com/img/DerfOh/compromise/?token=da9fe0c957cc8832dcb3617f96124e445468a24d)
+[![CircleCI](https://circleci.com/gh/DerfOh/compromise.svg?style=svg&circle-token=3463b0e1194f2712bd22809b2fa585112eaf8191)](https://circleci.com/gh/DerfOh/compromise)
 # CSC 383 & 420 Course Project
 ## Compromise
 
