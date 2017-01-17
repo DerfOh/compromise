@@ -2,5 +2,5 @@
 # CSC 383 & 420 Course Project
 ## Compromise
 
-The goal of this project is to create a simple rewards based todo list.
+The goal of this project is to create a incentive based todo list using project management and software engineering techniques taught leading up to and in our capstone class.
 
