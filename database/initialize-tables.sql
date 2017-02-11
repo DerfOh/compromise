@@ -1,4 +1,4 @@
-CREATE TABLE Users
+CREATE TABLE compromise.Users
 (
 EmailAddress varchar(255),
 FirstName varchar(255),
@@ -9,7 +9,7 @@ PRIMARY KEY(EmailAddress)
 );
 
 
-CREATE TABLE Groups
+CREATE TABLE compromise.Groups
 (
 GroupId int AUTO_INCREMENT,
 GroupName varchar(255),
@@ -17,7 +17,7 @@ PRIMARY KEY (GroupId)
 );
 
 
-CREATE TABLE Rewards
+CREATE TABLE compromise.Rewards
 (
 RewardId int AUTO_INCREMENT,
 GroupId int,
@@ -30,7 +30,7 @@ REFERENCES Groups (GroupId)
 );
 
 
-CREATE TABLE RewardRequests
+CREATE TABLE compromise.RewardRequests
 (
 RequestId int AUTO_INCREMENT,
 RewardId int,
@@ -43,7 +43,7 @@ REFERENCES Users (EmailAddress)
 );
 
 
-CREATE TABLE Tasks
+CREATE TABLE compromise.Tasks
 (
 TaskId int AUTO_INCREMENT,
 GroupId int,
@@ -60,7 +60,7 @@ REFERENCES Groups(GroupId)
 );
 
 
-CREATE TABLE TaskLeaders
+CREATE TABLE compromise.TaskLeaders
 (
 TaskLeaderId int AUTO_INCREMENT,
 EmailAddress varchar(255),
@@ -73,7 +73,7 @@ REFERENCES Users (EmailAddress)
 );
 
 
-CREATE TABLE Points
+CREATE TABLE compromise.Points
 (
 PointId int AUTO_INCREMENT,
 TotalPoints int DEFAULT 0,
