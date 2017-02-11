@@ -1,5 +1,4 @@
-/* Tables to initialize the sql database  */
-CREATE TABLE compromise.Users
+CREATE TABLE Users
 (
 EmailAddress varchar(255),
 FirstName varchar(255),
@@ -9,14 +8,16 @@ Password varchar(255),
 PRIMARY KEY(EmailAddress)
 );
 
-CREATE TABLE compromise.Groups
+
+CREATE TABLE Groups
 (
 GroupId int AUTO_INCREMENT,
 GroupName varchar(255),
 PRIMARY KEY (GroupId)
 );
 
-CREATE TABLE compromise.Rewards
+
+CREATE TABLE Rewards
 (
 RewardId int AUTO_INCREMENT,
 GroupId int,
@@ -28,32 +29,38 @@ CONSTRAINT fk_GroupReward FOREIGN KEY (GroupId)
 REFERENCES Groups (GroupId)
 );
 
-CREATE TABLE compromise.RewardRequests
+
+CREATE TABLE RewardRequests
 (
 RequestId int AUTO_INCREMENT,
 RewardId int,
-FulfillmentStatus varchar(255),
+RewardedUser varchar(255),
 PRIMARY KEY (RequestId),
 CONSTRAINT fk_RewardRequest FOREIGN KEY (RewardId)
-REFERENCES Rewards (RewardId)
+REFERENCES Rewards (RewardId),
+CONSTRAINT fk_RewardUser FOREIGN KEY (RewardedUser)
+REFERENCES Users (EmailAddress)
 );
 
-CREATE TABLE compromise.Tasks
+
+CREATE TABLE Tasks
 (
 TaskId int AUTO_INCREMENT,
 GroupId int,
 TaskName varchar(255),
 TaskDescription varchar(255),
-DateDue DATETIME,
-ApprovalStatus varchar(255),
 CompletionStatus varchar(255),
+CompletedBy varchar(255),
 PointValue int,
 PRIMARY KEY (TaskId),
+CONSTRAINT fk_UserReward FOREIGN KEY (CompletedBy)
+REFERENCES Users (EmailAddress),
 CONSTRAINT fk_GroupTask FOREIGN KEY (GroupId)
 REFERENCES Groups(GroupId)
 );
 
-CREATE TABLE compromise.TaskLeaders
+
+CREATE TABLE TaskLeaders
 (
 TaskLeaderId int AUTO_INCREMENT,
 EmailAddress varchar(255),
@@ -65,7 +72,8 @@ CONSTRAINT fk_GroupUser FOREIGN KEY (EmailAddress)
 REFERENCES Users (EmailAddress)
 );
 
-CREATE TABLE compromise.Points
+
+CREATE TABLE Points
 (
 PointId int AUTO_INCREMENT,
 TotalPoints int DEFAULT 0,
