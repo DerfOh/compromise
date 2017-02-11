@@ -16,9 +16,8 @@ type Task struct {
 	GroupId          string
 	TaskName         string
 	TaskDescription  string
-	DateDue          string
-	ApprovalStatus   string
 	CompletionStatus string
+	CompletedBy      string
 	PointValue       int
 }
 
@@ -59,15 +58,14 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		for rows.Next() {
 			var TaskId int
 			var GroupId string
-			var TaskDescription string
-			var DateDue string
 			var TaskName string
-			var ApprovalStatus string
+			var TaskDescription string
 			var CompletionStatus string
+			var CompletedBy string
 			var PointValue int
 
-			getErr := rows.Scan(&TaskId, &GroupId, &TaskName, &TaskDescription, &DateDue, &ApprovalStatus, &CompletionStatus, &PointValue)
-			task := &Task{TaskId: TaskId, GroupId: GroupId, TaskName: TaskName, TaskDescription: TaskDescription, DateDue: DateDue, ApprovalStatus: ApprovalStatus, CompletionStatus: CompletionStatus, PointValue: PointValue}
+			getErr := rows.Scan(&TaskId, &GroupId, &TaskName, &TaskDescription, &CompletionStatus, &CompletedBy, &PointValue)
+			task := &Task{TaskId: TaskId, GroupId: GroupId, TaskName: TaskName, TaskDescription: TaskDescription, CompletionStatus: CompletionStatus, CompletedBy: CompletedBy, PointValue: PointValue}
 			b, getErr := json.Marshal(task)
 			if getErr != nil {
 				fmt.Println(getErr)
@@ -84,14 +82,13 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		TaskName := request.PostFormValue("TaskName")
 		TaskDescription := request.PostFormValue("TaskDescription")
 		DateDue := request.PostFormValue("DateDue")
-		ApprovalStatus := request.PostFormValue("ApprovalStatus")
 		CompletionStatus := request.PostFormValue("CompletionStatus")
 		PointValue := request.PostFormValue("PointValue")
-		st, postErr := db.Prepare("INSERT INTO Tasks(`groupid`, `taskname`, `taskdescription`, `datedue`, `approvalstatus`, `completionstatus`, `pointvalue`) VALUES(?,?,?,?,?,?,?)")
+		st, postErr := db.Prepare("INSERT INTO Tasks(`groupid`, `taskname`, `taskdescription`, `datedue`, `completionstatus`, `pointvalue`) VALUES(?,?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
 		}
-		res, postErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, ApprovalStatus, CompletionStatus, PointValue)
+		res, postErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, CompletionStatus, PointValue)
 		if postErr != nil {
 			fmt.Print(postErr)
 		}
@@ -107,15 +104,14 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		TaskName := request.PostFormValue("TaskName")
 		TaskDescription := request.PostFormValue("TaskDescription")
 		DateDue := request.PostFormValue("DateDue")
-		ApprovalStatus := request.PostFormValue("ApprovalStatus")
 		CompletionStatus := request.PostFormValue("CompletionStatus")
 		PointValue := request.PostFormValue("PointValue")
 
-		st, putErr := db.Prepare("UPDATE Tasks SET GroupId=?, TaskName=?, TaskDescription=?, DateDue=?, ApprovalStatus=?, CompletionStatus=?, PointValue=? WHERE TaskId=?")
+		st, putErr := db.Prepare("UPDATE Tasks SET GroupId=?, TaskName=?, TaskDescription=?, DateDue=?, CompletionStatus=?, PointValue=? WHERE TaskId=?")
 		if err != nil {
 			fmt.Print(putErr)
 		}
-		res, putErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, ApprovalStatus, CompletionStatus, PointValue, TaskId)
+		res, putErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, CompletionStatus, PointValue, TaskId)
 		if putErr != nil {
 			fmt.Print(putErr)
 		}
