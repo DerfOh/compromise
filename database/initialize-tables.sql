@@ -26,7 +26,7 @@ PointCost int,
 RewardDescription varchar(255),
 PRIMARY KEY (RewardId),
 CONSTRAINT fk_GroupReward FOREIGN KEY (GroupId)
-REFERENCES Groups (GroupId)
+REFERENCES compromise.Groups (GroupId)
 );
 
 
@@ -37,9 +37,9 @@ RewardId int,
 RewardedUser varchar(255),
 PRIMARY KEY (RequestId),
 CONSTRAINT fk_RewardRequest FOREIGN KEY (RewardId)
-REFERENCES Rewards (RewardId),
+REFERENCES compromise.Rewards (RewardId),
 CONSTRAINT fk_RewardUser FOREIGN KEY (RewardedUser)
-REFERENCES Users (EmailAddress)
+REFERENCES compromise.Users (EmailAddress)
 );
 
 
@@ -54,9 +54,9 @@ CompletedBy varchar(255),
 PointValue int,
 PRIMARY KEY (TaskId),
 CONSTRAINT fk_UserReward FOREIGN KEY (CompletedBy)
-REFERENCES Users (EmailAddress),
+REFERENCES compromise.Users (EmailAddress),
 CONSTRAINT fk_GroupTask FOREIGN KEY (GroupId)
-REFERENCES Groups(GroupId)
+REFERENCES compromise.Groups(GroupId)
 );
 
 
@@ -67,9 +67,9 @@ EmailAddress varchar(255),
 GroupId int,
 PRIMARY KEY (TaskLeaderId),
 CONSTRAINT fk_GroupLeader FOREIGN KEY (GroupId)
-REFERENCES Groups (GroupId),
+REFERENCES compromise.Groups (GroupId),
 CONSTRAINT fk_GroupUser FOREIGN KEY (EmailAddress)
-REFERENCES Users (EmailAddress)
+REFERENCES compromise.Users (EmailAddress)
 );
 
 
@@ -81,7 +81,7 @@ EmailAddress varchar(255),
 GroupId int,
 PRIMARY KEY (PointId),
 CONSTRAINT fk_GroupPoint FOREIGN KEY (GroupId)
-REFERENCES Groups (GroupId),
+REFERENCES compromise.Groups (GroupId),
 CONSTRAINT fk_UserPoint FOREIGN KEY (EmailAddress)
-REFERENCES Users (EmailAddress)
+REFERENCES compromise.Users (EmailAddress)
 );
