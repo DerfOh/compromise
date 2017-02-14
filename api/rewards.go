@@ -74,25 +74,25 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:i]
 
 	case POST:
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
-	// 	if err != nil {
-	// 		fmt.Print(err)
-	// 	}
-	// 	res, postErr := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
-	// 	if postErr != nil {
-	// 		fmt.Print(postErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Added"
-	// 	}
-	// 	result = result[:1]
-	//
+		//RewardId := request.PostFormValue("RewardId")
+		GroupId := request.PostFormValue("GroupId")
+		RewardName := request.PostFormValue("RewardName")
+		RewardDescription := request.PostFormValue("RewardDescription")
+		PointCost := request.FormValue("PointCost")
+		st, postErr := db.Prepare("INSERT INTO Rewards(`rewardid`, `groupid`, `rewardname`, `rewarddescription`, `pointcost`) VALUES(NULL,?,?,?,?)")
+		if err != nil {
+			fmt.Print(err)
+		}
+		res, postErr := st.Exec(GroupId, RewardName, RewardDescription, PointCost)
+		if postErr != nil {
+			fmt.Print(postErr)
+		}
+
+		if res != nil {
+			result[0] = "Task Added"
+		}
+		result = result[:1]
+
 	case PUT:
 	// 	FirstName := request.PostFormValue("FirstName")
 	// 	LastName := request.PostFormValue("LastName")
