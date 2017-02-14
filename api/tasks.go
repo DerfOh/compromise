@@ -99,19 +99,19 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 
 	case PUT:
-		TaskId := request.PostFormValue("TaskId")
 		GroupId := request.PostFormValue("GroupId")
 		TaskName := request.PostFormValue("TaskName")
 		TaskDescription := request.PostFormValue("TaskDescription")
-		DateDue := request.PostFormValue("DateDue")
 		CompletionStatus := request.PostFormValue("CompletionStatus")
+		CompletedBy := request.PostFormValue("CompletedBy")
 		PointValue := request.PostFormValue("PointValue")
+		TaskId := request.PostFormValue("TaskId")
 
-		st, putErr := db.Prepare("UPDATE Tasks SET GroupId=?, TaskName=?, TaskDescription=?, DateDue=?, CompletionStatus=?, PointValue=? WHERE TaskId=?")
+		st, putErr := db.Prepare("UPDATE Tasks SET GroupId=?, TaskName=?, TaskDescription=?, CompletionStatus=?, CompletedBy=?, PointValue=? WHERE TaskId=?")
 		if err != nil {
 			fmt.Print(putErr)
 		}
-		res, putErr := st.Exec(GroupId, TaskName, TaskDescription, DateDue, CompletionStatus, PointValue, TaskId)
+		res, putErr := st.Exec(GroupId, TaskName, TaskDescription, CompletionStatus, CompletedBy, PointValue, TaskId)
 		if putErr != nil {
 			fmt.Print(putErr)
 		}
