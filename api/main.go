@@ -59,7 +59,7 @@ func main() {
 	// Execute the command-line parsing.
 	flag.Parse()
 
-    dbConnectionURL = *dbUserName + ":" + *dbPassword + "@tcp(" + *dbAddress + ":3306)/compromise"
+	dbConnectionURL = *dbUserName + ":" + *dbPassword + "@tcp(" + *dbAddress + ":3306)/compromise"
 
 	// Show flag trail in logs, do not show dbPassword intentionally, just check if the password is the default
 	fmt.Println("api port:\t\t", *port)
@@ -82,6 +82,8 @@ func main() {
 	mux.Handle("/api/users/", http.HandlerFunc(UserAPIHandler))
 	// Handler for Task interactions
 	mux.Handle("/api/tasks/", http.HandlerFunc(TaskAPIHandler))
+	// Handler for TaskLeader interactions
+	mux.Handle("/api/taskleaders/", http.HandlerFunc(TaskLeaderAPIHandler))
 	// Handler for Reward interactions
 	mux.Handle("/api/rewards/", http.HandlerFunc(RewardAPIHandler))
 	// Hanlder for Group interactions
