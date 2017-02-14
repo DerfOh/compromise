@@ -94,40 +94,41 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 
 	case PUT:
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	//
-	// 	st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
-	// 	if err != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	// 	res, putErr := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
-	// 	if putErr != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Modified"
-	// 	}
-	// 	result = result[:1]
+		GroupId := request.PostFormValue("GroupId")
+		RewardName := request.PostFormValue("RewardName")
+		RewardDescription := request.PostFormValue("RewardDescription")
+		PointCost := request.PostFormValue("PointCost")
+		RewardId := request.PostFormValue("RewardId")
+
+		st, putErr := db.Prepare("UPDATE Rewards SET GroupId=?, RewardName=?, RewardDescription=?, PointCost=? WHERE RewardId=?")
+		if err != nil {
+			fmt.Print(putErr)
+		}
+		res, putErr := st.Exec(GroupId, RewardName, RewardDescription, PointCost, RewardId)
+		if putErr != nil {
+			fmt.Print(putErr)
+		}
+
+		if res != nil {
+			result[0] = "Reward Modified"
+		}
+		result = result[:1]
+
 	case DELETE:
-		// EmailAddress := request.PostFormValue("EmailAddress")
-		// st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		// res, deleteErr := st.Exec(EmailAddress)
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		//
-		// if res != nil {
-		// 	result[0] = "User Deleted"
-		// }
-		// result = result[:1]
+		RewardId := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM Rewards WHERE RewardId=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+		res, deleteErr := st.Exec(RewardId)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+
+		if res != nil {
+			result[0] = "Reward Deleted"
+		}
+		result = result[:1]
 
 	default:
 	}
