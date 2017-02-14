@@ -105,7 +105,7 @@ func TaskLeaderAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:1]
 	case DELETE:
 		TaskLeaderId := strings.Replace(request.URL.Path, "/api/taskleaders/", "", -1)
-		st, deleteErr := db.Prepare("DELETE FROM TasksLeaders WHERE TaskLeaderId=?")
+		st, deleteErr := db.Prepare("DELETE FROM TaskLeaders WHERE TaskLeaderId=?")
 		if deleteErr != nil {
 			fmt.Print(deleteErr)
 		}
