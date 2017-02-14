@@ -84,6 +84,8 @@ func main() {
 	mux.Handle("/api/tasks/", http.HandlerFunc(TaskAPIHandler))
 	// Handler for TaskLeader interactions
 	mux.Handle("/api/taskleaders/", http.HandlerFunc(TaskLeaderAPIHandler))
+	// Handler for Points interactions
+	mux.Handle("/api/points/", http.HandlerFunc(PointsAPIHandler))
 	// Handler for Reward interactions
 	mux.Handle("/api/rewards/", http.HandlerFunc(RewardAPIHandler))
 	// Hanlder for Group interactions
