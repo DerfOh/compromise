@@ -78,7 +78,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	case POST:
 		//TaskId :=
-		TaskID := request.PostFormValue("TaskID")
+		TaskId := request.PostFormValue("TaskId")
 		GroupId := request.PostFormValue("GroupId")
 		TaskName := request.PostFormValue("TaskName")
 		TaskDescription := request.PostFormValue("TaskDescription")
@@ -89,7 +89,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		if err != nil {
 			fmt.Print(err)
 		}
-		res, postErr := st.Exec(TaskID, GroupId, TaskName, TaskDescription, CompletionStatus, CompletedBy, PointValue)
+		res, postErr := st.Exec(TaskId, GroupId, TaskName, TaskDescription, CompletionStatus, CompletedBy, PointValue)
 		if postErr != nil {
 			fmt.Print(postErr)
 		}
