@@ -89,7 +89,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 
 		if res != nil {
-			result[0] = "Task Added"
+			result[0] = "Reward Added"
 		}
 		result = result[:1]
 
