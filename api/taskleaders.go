@@ -69,14 +69,13 @@ func TaskLeaderAPIHandler(response http.ResponseWriter, request *http.Request) {
 		result = result[:i]
 
 	case POST:
-		TaskLeaderId := request.PostFormValue("TaskLeaderId")
 		EmailAddress := request.PostFormValue("EmailAddress")
 		GroupId := request.PostFormValue("GroupId")
 		st, postErr := db.Prepare("INSERT INTO TaskLeaders(`taskleaderid`,`emailaddress`,`groupid`) VALUES(NULL,?,?)")
 		if err != nil {
 			fmt.Print(err)
 		}
-		res, postErr := st.Exec(TaskLeaderId, EmailAddress, GroupId)
+		res, postErr := st.Exec(EmailAddress, GroupId)
 		if postErr != nil {
 			fmt.Print(postErr)
 		}
@@ -91,7 +90,7 @@ func TaskLeaderAPIHandler(response http.ResponseWriter, request *http.Request) {
 		EmailAddress := request.PostFormValue("EmailAddress")
 		GroupId := request.PostFormValue("GroupId")
 
-		st, putErr := db.Prepare("UPDATE Tasks SET EmailAddress=?, GroupId=? WHERE TaskLeaderId=?")
+		st, putErr := db.Prepare("UPDATE TaskLeaders SET EmailAddress=?, GroupId=? WHERE TaskLeaderId=?")
 		if err != nil {
 			fmt.Print(putErr)
 		}
