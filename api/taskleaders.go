@@ -68,65 +68,57 @@ func TaskLeaderAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	// case POST:
-	// 	//TaskId := request.PostFormValue("TaskId")
-	// 	GroupId := request.PostFormValue("GroupId")
-	// 	TaskName := request.PostFormValue("TaskName")
-	// 	TaskDescription := request.PostFormValue("TaskDescription")
-	// 	CompletionStatus := request.PostFormValue("CompletionStatus")
-	// 	//CompletedBy := request.PostFormValue("CompletedBy")
-	// 	PointValue := request.PostFormValue("PointValue")
-	// 	st, postErr := db.Prepare("INSERT INTO Tasks(`taskid`, `groupid`, `taskname`, `taskdescription`, `completionstatus`, `completedby`,`pointvalue`) VALUES(NULL,?,?,?,?,NULL,?)")
-	// 	if err != nil {
-	// 		fmt.Print(err)
-	// 	}
-	// 	res, postErr := st.Exec(GroupId, TaskName, TaskDescription, CompletionStatus, PointValue)
-	// 	if postErr != nil {
-	// 		fmt.Print(postErr)
-	// 	}
+	case POST:
+		TaskLeaderId := request.PostFormValue("TaskLeaderId")
+		EmailAddress := request.PostFormValue("EmailAddress")
+		GroupId := request.PostFormValue("GroupId")
+		st, postErr := db.Prepare("INSERT INTO TaskLeaders(`taskleaderid`,`emailaddress`,`groupid`) VALUES(NULL,?,?)")
+		if err != nil {
+			fmt.Print(err)
+		}
+		res, postErr := st.Exec(TaskLeaderId, EmailAddress, GroupId)
+		if postErr != nil {
+			fmt.Print(postErr)
+		}
 
-	// 	if res != nil {
-	// 		result[0] = "Task Added"
-	// 	}
-	// 	result = result[:1]
+		if res != nil {
+			result[0] = "Leader Added"
+		}
+		result = result[:1]
 
-	// case PUT:
-	// 	GroupId := request.PostFormValue("GroupId")
-	// 	TaskName := request.PostFormValue("TaskName")
-	// 	TaskDescription := request.PostFormValue("TaskDescription")
-	// 	CompletionStatus := request.PostFormValue("CompletionStatus")
-	// 	CompletedBy := request.PostFormValue("CompletedBy")
-	// 	PointValue := request.PostFormValue("PointValue")
-	// 	TaskId := request.PostFormValue("TaskId")
+	case PUT:
+		TaskLeaderId := request.PostFormValue("TaskLeaderId")
+		EmailAddress := request.PostFormValue("EmailAddress")
+		GroupId := request.PostFormValue("GroupId")
 
-	// 	st, putErr := db.Prepare("UPDATE Tasks SET GroupId=?, TaskName=?, TaskDescription=?, CompletionStatus=?, CompletedBy=?, PointValue=? WHERE TaskId=?")
-	// 	if err != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	// 	res, putErr := st.Exec(GroupId, TaskName, TaskDescription, CompletionStatus, CompletedBy, PointValue, TaskId)
-	// 	if putErr != nil {
-	// 		fmt.Print(putErr)
-	// 	}
+		st, putErr := db.Prepare("UPDATE Tasks SET EmailAddress=?, GroupId=? WHERE TaskLeaderId=?")
+		if err != nil {
+			fmt.Print(putErr)
+		}
+		res, putErr := st.Exec(EmailAddress, GroupId, TaskLeaderId)
+		if putErr != nil {
+			fmt.Print(putErr)
+		}
 
-	// 	if res != nil {
-	// 		result[0] = "Task Modified"
-	// 	}
-	// 	result = result[:1]
-	// case DELETE:
-	// 	TaskId := strings.Replace(request.URL.Path, "/api/tasks/", "", -1)
-	// 	st, deleteErr := db.Prepare("DELETE FROM Tasks WHERE TaskId=?")
-	// 	if deleteErr != nil {
-	// 		fmt.Print(deleteErr)
-	// 	}
-	// 	res, deleteErr := st.Exec(TaskId)
-	// 	if deleteErr != nil {
-	// 		fmt.Print(deleteErr)
-	// 	}
+		if res != nil {
+			result[0] = "Leader Modified"
+		}
+		result = result[:1]
+	case DELETE:
+		TaskLeaderId := strings.Replace(request.URL.Path, "/api/taskleaders/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM TasksLeaders WHERE TaskLeaderId=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+		res, deleteErr := st.Exec(TaskLeaderId)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
 
-	// 	if res != nil {
-	// 		result[0] = "Task Deleted"
-	// 	}
-	// 	result = result[:1]
+		if res != nil {
+			result[0] = "Task Leader Deleted"
+		}
+		result = result[:1]
 
 	default:
 	}
