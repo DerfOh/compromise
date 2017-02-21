@@ -118,21 +118,21 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 	// 	}
 	// 	result = result[:1]
 
-	// case DELETE:
-	// 	RewardId := strings.Replace(request.URL.Path, "/api/rewardrequests/", "", -1)
-	// 	st, deleteErr := db.Prepare("DELETE FROM rewardrequests WHERE RewardId=?")
-	// 	if deleteErr != nil {
-	// 		fmt.Print(deleteErr)
-	// 	}
-	// 	res, deleteErr := st.Exec(RewardId)
-	// 	if deleteErr != nil {
-	// 		fmt.Print(deleteErr)
-	// 	}
+	case DELETE:
+		RequestId := strings.Replace(request.URL.Path, "/api/rewardrequests/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM RewardRequests where RequestId=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+		res, deleteErr := st.Exec(RequestId)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
 
-	// 	if res != nil {
-	// 		result[0] = "Reward Deleted"
-	// 	}
-	// 	result = result[:1]
+		if res != nil {
+			result[0] = "Reward Deleted"
+		}
+		result = result[:1]
 
 	default:
 	}
