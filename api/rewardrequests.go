@@ -97,26 +97,29 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 		}
 		result = result[:1]
 
-	// case PUT:
-	// 	GroupId := request.PostFormValue("GroupId")
-	// 	RewardName := request.PostFormValue("RewardName")
-	// 	RewardDescription := request.PostFormValue("RewardDescription")
-	// 	PointCost := request.PostFormValue("PointCost")
-	// 	RewardId := request.PostFormValue("RewardId")
+	case PUT:
+		RequestId := request.PostFormValue("RequestId")
+		GroupId := request.PostFormValue("GroupId")
+		RewardName := request.PostFormValue("RewardName")
+		PointCost := request.PostFormValue("PointCost")
+		RewardDescription := request.PostFormValue("RewardDescription")
+		RewardedUser := request.PostFormValue("RewardedUser")
 
-	// 	st, putErr := db.Prepare("UPDATE rewardrequests SET GroupId=?, RewardName=?, RewardDescription=?, PointCost=? WHERE RewardId=?")
-	// 	if err != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	// 	res, putErr := st.Exec(GroupId, RewardName, RewardDescription, PointCost, RewardId)
-	// 	if putErr != nil {
-	// 		fmt.Print(putErr)
-	// 	}
+		fmt.Println(RequestId)
 
-	// 	if res != nil {
-	// 		result[0] = "Reward Modified"
-	// 	}
-	// 	result = result[:1]
+		st, putErr := db.Prepare("UPDATE RewardRequests SET GroupId=?, RewardName=?, PointCost=?, RewardDescription=?, RewardedUser=? WHERE RequestId=?")
+		if err != nil {
+			fmt.Print(putErr)
+		}
+		res, putErr := st.Exec(GroupId, RewardName, PointCost, RewardDescription, RewardedUser, RequestId)
+		if putErr != nil {
+			fmt.Print(putErr)
+		}
+
+		if res != nil {
+			result[0] = "Reward Modified"
+		}
+		result = result[:1]
 
 	case DELETE:
 		RequestId := strings.Replace(request.URL.Path, "/api/rewardrequests/", "", -1)
