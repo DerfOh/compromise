@@ -76,26 +76,26 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 		}
 		result = result[:i]
 
-	// case POST:
-	// 	//RewardId := request.PostFormValue("RewardId")
-	// 	GroupId := request.PostFormValue("GroupId")
-	// 	RewardName := request.PostFormValue("RewardName")
-	// 	PointCost := request.PostFormValue("PointCost")
-	// 	RewardDescription := request.PostFormValue("RewardDescription")
-	// 	RewardedUser := request.PostFormValue("RewardedUser")
-	// 	st, postErr := db.Prepare("INSERT INTO RewardRequests(`requestid`, `groupid`, `rewardname`, `pointcost`, `rewarddescription`, `rewardeduser`) VALUES(NULL,?,?,?,?,?)")
-	// 	if err != nil {
-	// 		fmt.Print(err)
-	// 	}
-	// 	res, postErr := st.Exec(GroupId, RewardName, RewardDescription, PointCost)
-	// 	if postErr != nil {
-	// 		fmt.Print(postErr)
-	// 	}
+	case POST:
+		//RequestId := request.PostFormValue("RequestId")
+		GroupId := request.PostFormValue("GroupId")
+		RewardName := request.PostFormValue("RewardName")
+		PointCost := request.PostFormValue("PointCost")
+		RewardDescription := request.PostFormValue("RewardDescription")
+		RewardedUser := request.PostFormValue("RewardedUser")
+		st, postErr := db.Prepare("INSERT INTO RewardRequests(`requestid`, `groupid`, `rewardname`, `pointcost`, `rewarddescription`, `rewardeduser`) VALUES(NULL,?,?,?,?,?)")
+		if err != nil {
+			fmt.Print(err)
+		}
+		res, postErr := st.Exec(GroupId, RewardName, PointCost, RewardDescription, RewardedUser)
+		if postErr != nil {
+			fmt.Print(postErr)
+		}
 
-	// 	if res != nil {
-	// 		result[0] = "Request Added"
-	// 	}
-	// 	result = result[:1]
+		if res != nil {
+			result[0] = "Request Added"
+		}
+		result = result[:1]
 
 	// case PUT:
 	// 	GroupId := request.PostFormValue("GroupId")
