@@ -42,7 +42,7 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 	var result = make([]string, 1000)
 
 	switch request.Method {
-	case "GET":
+	case GET:
 		GroupId := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
 		//fmt.Println(GroupId)
 		st, getErr := db.Prepare("SELECT * FROM Rewards WHERE GroupId=?")
@@ -73,61 +73,62 @@ func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	case "POST":
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
-	// 	if err != nil {
-	// 		fmt.Print(err)
-	// 	}
-	// 	res, postErr := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
-	// 	if postErr != nil {
-	// 		fmt.Print(postErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Added"
-	// 	}
-	// 	result = result[:1]
-	//
-	case "PUT":
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	//
-	// 	st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
-	// 	if err != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	// 	res, putErr := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
-	// 	if putErr != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Modified"
-	// 	}
-	// 	result = result[:1]
-	case "DELETE":
-		// EmailAddress := request.PostFormValue("EmailAddress")
-		// st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		// res, deleteErr := st.Exec(EmailAddress)
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		//
-		// if res != nil {
-		// 	result[0] = "User Deleted"
-		// }
-		// result = result[:1]
+	case POST:
+		//RewardId := request.PostFormValue("RewardId")
+		GroupId := request.PostFormValue("GroupId")
+		RewardName := request.PostFormValue("RewardName")
+		RewardDescription := request.PostFormValue("RewardDescription")
+		PointCost := request.FormValue("PointCost")
+		st, postErr := db.Prepare("INSERT INTO Rewards(`rewardid`, `groupid`, `rewardname`, `rewarddescription`, `pointcost`) VALUES(NULL,?,?,?,?)")
+		if err != nil {
+			fmt.Print(err)
+		}
+		res, postErr := st.Exec(GroupId, RewardName, RewardDescription, PointCost)
+		if postErr != nil {
+			fmt.Print(postErr)
+		}
+
+		if res != nil {
+			result[0] = "Reward Added"
+		}
+		result = result[:1]
+
+	case PUT:
+		GroupId := request.PostFormValue("GroupId")
+		RewardName := request.PostFormValue("RewardName")
+		RewardDescription := request.PostFormValue("RewardDescription")
+		PointCost := request.PostFormValue("PointCost")
+		RewardId := request.PostFormValue("RewardId")
+
+		st, putErr := db.Prepare("UPDATE Rewards SET GroupId=?, RewardName=?, RewardDescription=?, PointCost=? WHERE RewardId=?")
+		if err != nil {
+			fmt.Print(putErr)
+		}
+		res, putErr := st.Exec(GroupId, RewardName, RewardDescription, PointCost, RewardId)
+		if putErr != nil {
+			fmt.Print(putErr)
+		}
+
+		if res != nil {
+			result[0] = "Reward Modified"
+		}
+		result = result[:1]
+
+	case DELETE:
+		RewardId := strings.Replace(request.URL.Path, "/api/rewards/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM Rewards WHERE RewardId=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+		res, deleteErr := st.Exec(RewardId)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+
+		if res != nil {
+			result[0] = "Reward Deleted"
+		}
+		result = result[:1]
 
 	default:
 	}

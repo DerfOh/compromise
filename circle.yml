@@ -1,24 +1,50 @@
 machine:
   environment:
     IMPORT_PATH: "github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
+  services:
+    - docker
 
 dependencies:
   pre:
+    # set up golang dependencies
     - go get github.com/derfoh/compromise/api
 
+    # set up android dependencies
+    - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-24,android-24,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+    #- echo n | android create avd -n testing -f -t android-24 --abi "default"
+
+
   override:
+    # overrides for golang
     - mkdir -p "$GOPATH/src/$IMPORT_PATH"
     - rsync -azC --delete ./ "$GOPATH/src/$IMPORT_PATH/api"
+    - docker info
+    - docker build --rm=false -t derfoh/compromise-api /home/ubuntu/compromise/api/
 
 test:
   pre:
+    # go tests
     - go vet ./...
 
   override:
+    # go overrides
     - go test ./...
+    - docker run -d -p 80:80 derfoh/compromise-api; sleep 10
+    - curl --retry 10 --retry-delay 30 -v http://localhost/
+    # android overrides
+    - ls compromise-app/build
+    - chmod +x compromise-app/gradlew
+    - $ANDROID_HOME/tools/emulator -avd testing -no-window -no-boot-anim -no-audio:
+        background: true
+        parallel: true
+    - ./compromise-app/gradlew build
+    # - cp -r compromise-app/build/generated $CIRCLE_ARTIFACTS
 
-# deployment:
-#   production:
-#     branch: master
-#     commands:
-#       - ./build_and_deploy.sh ./...
+
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push derfoh/compromise-api

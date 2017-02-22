@@ -31,6 +31,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.umflint.superteam.compromise.LoginActivity" />
         </activity>
+        <activity
+            android:name=".GroupMemberActivity"
+            android:label="@string/title_activity_group_member"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.umflint.superteam.compromise.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DetailedTaskActivity"
+            android:label="@string/title_activity_detailed_task"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.umflint.superteam.compromise.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -18,6 +18,6 @@
 
 And open http://IP_or_localhost:1234/api
 
-# User API Spec
+# API Documentation
 
 The api documentation can be found [Here](https://documenter.getpostman.com/view/1058924/compromise/2PLrnk)

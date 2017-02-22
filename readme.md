@@ -1,6 +1,6 @@
-![Build Status](http://circleci-badges-max.herokuapp.com/img/DerfOh/compromise/?token=da9fe0c957cc8832dcb3617f96124e445468a24d)
-# CSC 383 Course Project
+[![CircleCI](https://circleci.com/gh/DerfOh/compromise.svg?style=svg&circle-token=3463b0e1194f2712bd22809b2fa585112eaf8191)](https://circleci.com/gh/DerfOh/compromise)
+# CSC 383 & 420 Course Project
 ## Compromise
 
-The goal of this project is to create a simple rewards based todo list.
+The goal of this project is to create a incentive based todo list using project management and software engineering techniques taught leading up to and in our capstone class.
 

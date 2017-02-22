@@ -40,7 +40,7 @@ func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 	var result = make([]string, 1000)
 
 	switch request.Method {
-	case "GET":
+	case GET:
 		EmailAddress := strings.Replace(request.URL.Path, "/api/groups/", "", -1)
 		//fmt.Println(EmailAddress)
 
@@ -73,61 +73,55 @@ func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
 		}
 		result = result[:i]
 
-	case "POST":
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
-	// 	if err != nil {
-	// 		fmt.Print(err)
-	// 	}
-	// 	res, postErr := st.Exec(EmailAddress, FirstName, LastName, Nickname, Password)
-	// 	if postErr != nil {
-	// 		fmt.Print(postErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Added"
-	// 	}
-	// 	result = result[:1]
-	//
-	// case "PUT":
-	// 	FirstName := request.PostFormValue("FirstName")
-	// 	LastName := request.PostFormValue("LastName")
-	// 	Nickname := request.PostFormValue("Nickname")
-	// 	Password := request.PostFormValue("Password")
-	// 	EmailAddress := request.PostFormValue("EmailAddress")
-	//
-	// 	st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
-	// 	if err != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	// 	res, putErr := st.Exec(FirstName, LastName, Nickname, Password, EmailAddress)
-	// 	if putErr != nil {
-	// 		fmt.Print(putErr)
-	// 	}
-	//
-	// 	if res != nil {
-	// 		result[0] = "User Modified"
-	// 	}
-	// 	result = result[:1]
-	case "DELETE":
-		// EmailAddress := request.PostFormValue("EmailAddress")
-		// st, deleteErr := db.Prepare("DELETE FROM Users WHERE EmailAddress=?")
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		// res, deleteErr := st.Exec(EmailAddress)
-		// if deleteErr != nil {
-		// 	fmt.Print(deleteErr)
-		// }
-		//
-		// if res != nil {
-		// 	result[0] = "User Deleted"
-		// }
-		// result = result[:1]
+	case POST:
+		GroupName := request.PostFormValue("GroupName")
+		st, postErr := db.Prepare("INSERT INTO Groups(`groupid`, `groupname`) VALUES(NULL,?)")
+		if err != nil {
+			fmt.Print(err)
+		}
+		res, postErr := st.Exec(GroupName)
+		if postErr != nil {
+			fmt.Print(postErr)
+		}
+
+		if res != nil {
+			result[0] = "Group Added"
+		}
+		result = result[:1]
+
+	case PUT:
+		GroupId := request.PostFormValue("GroupId")
+		GroupName := request.PostFormValue("GroupName")
+
+		st, putErr := db.Prepare("UPDATE Groups SET GroupName=? WHERE GroupId=?")
+		if err != nil {
+			fmt.Print(putErr)
+		}
+		res, putErr := st.Exec(GroupName, GroupId)
+		if putErr != nil {
+			fmt.Print(putErr)
+		}
+
+		if res != nil {
+			result[0] = "Group Modified"
+		}
+		result = result[:1]
+
+	case DELETE:
+		GroupId := strings.Replace(request.URL.Path, "/api/groups/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM Groups WHERE GroupId=?")
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+		res, deleteErr := st.Exec(GroupId)
+		if deleteErr != nil {
+			fmt.Print(deleteErr)
+		}
+
+		if res != nil {
+			result[0] = "Group Deleted"
+		}
+		result = result[:1]
 
 	default:
 	}

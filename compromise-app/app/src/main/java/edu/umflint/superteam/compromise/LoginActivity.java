@@ -26,6 +26,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -36,6 +37,9 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import edu.umflint.superteam.compromise.API.GetPassword;
+import edu.umflint.superteam.compromise.API.GetTasks;
 
 /**
  * A login screen that offers login via email/password.
@@ -50,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
+    private String email;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-
         Button contactUs = (Button) findViewById(R.id.contact_us_btn);
         contactUs.setOnClickListener(new OnClickListener(){
             @Override
@@ -85,6 +90,14 @@ public class LoginActivity extends AppCompatActivity {
                 props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
                 props.put("mail.smtp.auth","true");
                 props.put("mail.smtp.port","465");
+                email = mEmailView.getText().toString();
+                try {
+                     password = new GetPassword(email).execute().get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
                 session = Session.getDefaultInstance(props, new Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
@@ -103,18 +116,29 @@ public class LoginActivity extends AppCompatActivity {
                     message.setFrom(new InternetAddress("Compromise@nicholassammut.com"));
                     message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(params[0]));
                     message.setSubject("Compromise Android Application Password");
-                    message.setContent("Your password is Compromise123!", "text/html ; charset=utf-8");
-                    Transport.send(message);
+                    message.setContent("Your password is " + password + "!", "text/html ; charset=utf-8");
+                    if(password.equals("\"\"")) {
+                    }
+                    else {
+                        Transport.send(message);
+                    }
                 } catch (AddressException e) {
                     e.printStackTrace();
                 } catch (MessagingException e) {
                     e.printStackTrace();
                 }
-                return null;
+                return password;
             }
             @Override
             protected void onPostExecute(String result) {
-                Toast.makeText(LoginActivity.this, "Your Password Has Been Sent!", Toast.LENGTH_SHORT).show();
+                if(password.equals("\"\"")) {
+                    Toast.makeText(LoginActivity.this, "There was a problem! Check your Email Address!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Your Password Has Been Sent!", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         }
     });
@@ -207,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: attempt authentication against a network service.
 
             try {
-                String url = "http://192.241.153.134:8080/api/auth/";
+                String url = "http://api.compromise.rocks/api/auth/";
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -264,6 +288,7 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("EmailAddress", mEmail);
+                editor.putInt("SelectedGroup", -1);
                 editor.apply();
                 startActivity(intent);
                 finish();
