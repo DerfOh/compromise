@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.constraint.solver.ArrayLinkedVariables;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.SubMenu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,7 +21,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,9 +42,23 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import edu.umflint.superteam.compromise.API.GetRewards;
+import edu.umflint.superteam.compromise.API.GetTasks;
+import edu.umflint.superteam.compromise.Adapter.ExpandListAdapter;
+import edu.umflint.superteam.compromise.Classes.ExpandListChild;
+import edu.umflint.superteam.compromise.Classes.ExpandListGroup;
 
 
 public class MainActivity extends AppCompatActivity {
+
+
+    private ExpandListAdapter ExpAdapter;
+    private ArrayList<ExpandListGroup> ExpListItems;
+    private ExpandableListView ExpandList;
 
     public class UserFindGroups extends AsyncTask<Void, Void, JSONArray> {
 
@@ -54,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             // TODO: attempt authentication against a network service.
 
             try {
-                String url = "http://api.compromise.rocks:8080/api/groups/" + mEmail;
+                String url = "http://api.compromise.rocks/api/groups/" + mEmail;
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -78,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
             //print result
             Log.i("Groups", response.toString());
-
             if (!response.toString().isEmpty()) {
                 try {
                     JSONArray jsonObj = new JSONArray(response.toString());
@@ -107,8 +126,9 @@ public class MainActivity extends AppCompatActivity {
                         groupId = row.getInt("GroupId");
                         groupName = row.getString("GroupName");
                         points = row.getInt("TotalPoints");
-                        menu.add(0, groupId, 0, groupName + "\t\t\tPoints:" + points);
+                        menu.add(0, groupId, 0, "(" + points + " pts) " + groupName);
                     }
+
                 } else {
 
                 }
@@ -125,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
@@ -166,32 +187,56 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTabSelected(int position, boolean wasSelected) {
                 if(position == 0)
                 {
-                    toolbar.setTitle("Tasks!!!");
-                    Toast.makeText(getApplication().getBaseContext(), "Tasks!", Toast.LENGTH_SHORT).show();
+
                 } else if (position == 1) {
-                    toolbar.setTitle("Rewards!!!");
-                    Toast.makeText(getApplication().getBaseContext(), "Rewards!", Toast.LENGTH_SHORT).show();
+
                 }
                 return true;
             }
         });
-        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
-            @Override public void onPositionChange(int y) {
-                // Manage the new y position
-            }
-        });
+
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         UserFindGroups groupTask = new UserFindGroups(prefs.getString("EmailAddress", ""));
         groupTask.execute((Void) null);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         NavigationView.OnNavigationItemSelectedListener item_click_listener = new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
 
                 int id = item.getItemId();
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putInt("SelectedGroup", id);
+                editor.apply();
 
-                Toast.makeText(getApplication().getBaseContext(), "You Chose " + id, Toast.LENGTH_LONG).show();
+                toolbar.setTitle(item.getTitle());
+
+                ExpandList = (ExpandableListView) findViewById(R.id.list);
+
+                ExpListItems = SetStandardGroups(id);
+                ExpAdapter = new ExpandListAdapter(MainActivity.this, ExpListItems);
+                ExpandList.setAdapter(ExpAdapter);
+
+                ExpandList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                        Log.i("Clicked", "Item Clicked!");
+                        // TODO Auto-generated method stub
+                        ExpandListChild selected = (ExpandListChild) ExpAdapter.getChild(groupPosition, childPosition);
+                        //Toast.makeText(getApplication().getBaseContext(), "Item Clicked! " + selected.getTag(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), DetailedTaskActivity.class);
+                        intent.putExtra("taskTitle", selected.getName());
+                        intent.putExtra("taskPoints", selected.getPoints());
+                        intent.putExtra("taskDescription", selected.getDescription());
+                        intent.putExtra("newTask", false);
+                        startActivity(intent);
+                        Log.i("Object", selected.toString());
+                        return true;
+                    }
+                });
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
@@ -205,6 +250,21 @@ public class MainActivity extends AppCompatActivity {
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    private ArrayList<ExpandListGroup> SetStandardGroups(int groupId)
+    {
+        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        ArrayList list = new ArrayList();
+        try {
+            if(bottomNavigation.getCurrentItem() == 0)
+                list = new GetTasks(groupId).execute().get();
+            else
+                list = new GetRewards(groupId).execute().get();
+        } catch (Exception e) {
+
+        }
+        return list;
     }
 
     @Override
@@ -226,6 +286,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loggedInAccount.setText(prefs.getString("EmailAddress", ""));
 
+
         return true;
     }
 
@@ -237,8 +298,28 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.logout) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("EmailAddress", "");
+            editor.putInt("SelectedGroup", -1);
+            editor.apply();
+            Toast.makeText(getApplication().getBaseContext(), "You have been logged out.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
+        } else if(id == R.id.action_group_directory)
+        {
+            Intent intent = new Intent(this, GroupMemberActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_new)
+        {
+            Intent intent = new Intent(this, DetailedTaskActivity.class);
+            intent.putExtra("taskTitle", "Example Title");
+            intent.putExtra("taskPoints", 999);
+            intent.putExtra("taskDescription", "Example Description");
+            intent.putExtra("newTask", true);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
