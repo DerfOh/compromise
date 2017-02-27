@@ -8,6 +8,7 @@ dependencies:
   pre:
     # set up golang dependencies
     - go get github.com/derfoh/compromise/api
+    - go get golang.org/x/crypto/bcrypt
 
     # set up android dependencies
     - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-24,android-24,extra-google-m2repository,extra-google-google_play_services,extra-android-support
