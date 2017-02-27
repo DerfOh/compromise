@@ -19,6 +19,7 @@ WORKDIR /app
 
 # Retrieve the files for mysql from github
 RUN go get github.com/go-sql-driver/mysql
+RUN go get golang.org/x/crypto/bcrypt
 
 # Build the application
 RUN go build -o main . 
