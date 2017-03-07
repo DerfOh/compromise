@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        final AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         // Create items
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tasks, R.drawable.ic_tasks, R.color.colorPrimary);
@@ -162,18 +162,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Disable the translation inside the CoordinatorLayout
         bottomNavigation.setBehaviorTranslationEnabled(false);
-
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         // Change colors
         bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
         bottomNavigation.setInactiveColor(Color.parseColor("#303F9F"));
 
         // Force to tint the drawable (useful for font with icon for example)
         bottomNavigation.setForceTint(true);
-
-        // Force the titles to be displayed (against Material Design guidelines!)
-        bottomNavigation.setForceTitlesDisplay(true);
-        // Or force the titles to be hidden (against Material Design guidelines, too!)
-        bottomNavigation.setForceTitlesHide(true);
 
         // Use colored navigation with circle reveal effect
         bottomNavigation.setColored(true);
@@ -185,11 +180,19 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 if(position == 0)
                 {
-
+                    ExpandList = (ExpandableListView) findViewById(R.id.list);
+                    ExpListItems = SetStandardGroups(prefs.getInt("SelectedGroup", -1), position);
+                    ExpAdapter = new ExpandListAdapter(MainActivity.this, ExpListItems);
+                    ExpandList.setAdapter(ExpAdapter);
                 } else if (position == 1) {
+                    ExpandList = (ExpandableListView) findViewById(R.id.list);
 
+                    ExpListItems = SetStandardGroups(prefs.getInt("SelectedGroup", -1), position);
+                    ExpAdapter = new ExpandListAdapter(MainActivity.this, ExpListItems);
+                    ExpandList.setAdapter(ExpAdapter);
                 }
                 return true;
             }
@@ -215,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ExpandList = (ExpandableListView) findViewById(R.id.list);
 
-                ExpListItems = SetStandardGroups(id);
+                ExpListItems = SetStandardGroups(id, bottomNavigation.getCurrentItem());
                 ExpAdapter = new ExpandListAdapter(MainActivity.this, ExpListItems);
                 ExpandList.setAdapter(ExpAdapter);
 
@@ -252,12 +255,12 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
     }
 
-    private ArrayList<ExpandListGroup> SetStandardGroups(int groupId)
+    private ArrayList<ExpandListGroup> SetStandardGroups(int groupId, int position)
     {
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
         ArrayList list = new ArrayList();
         try {
-            if(bottomNavigation.getCurrentItem() == 0)
+            if(position == 0)
                 list = new GetTasks(groupId).execute().get();
             else
                 list = new GetRewards(groupId).execute().get();
