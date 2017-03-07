@@ -26,6 +26,6 @@ func ExampleHash() {
 	fmt.Println("Match:   ", match)
 
 	// Output: Password: secret
-	// Match:    tru
+	// Match:    true
 
 }
