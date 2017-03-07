@@ -89,7 +89,7 @@ func main() {
 	// Handler for Reward interactions
 	mux.Handle("/api/rewards/", http.HandlerFunc(RewardAPIHandler))
 	// Handler for Reward interactions
-	mux.Handle("/api/rewardrequests/", http.HandlerFunc(RewardRequestAPIHandler))
+	mux.Handle("/api/purchasedrewards/", http.HandlerFunc(RewardRequestAPIHandler))
 	// Hanlder for Group interactions
 	mux.Handle("/api/groups/", http.HandlerFunc(GroupAPIHandler))
 	// Handler for Authentication of users

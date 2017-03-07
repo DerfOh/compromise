@@ -22,7 +22,7 @@ type RewardRequest struct {
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// RewardReuestAPIHandler responds to /rewardrequests/
+// RewardReuestAPIHandler responds to /purchasedrewards/
 func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
@@ -44,10 +44,10 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 
 	switch request.Method {
 	case GET:
-		GroupId := strings.Replace(request.URL.Path, "/api/rewardrequests/", "", -1)
+		GroupId := strings.Replace(request.URL.Path, "/api/purchasedrewards/", "", -1)
 
 		//fmt.Println(GroupId)
-		st, getErr := db.Prepare("select * from RewardRequests where GroupId=?")
+		st, getErr := db.Prepare("select * from PurchasedRewards where GroupId=?")
 		if err != nil {
 			fmt.Print(getErr)
 		}
@@ -83,7 +83,7 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 		PointCost := request.PostFormValue("PointCost")
 		RewardDescription := request.PostFormValue("RewardDescription")
 		RewardedUser := request.PostFormValue("RewardedUser")
-		st, postErr := db.Prepare("INSERT INTO RewardRequests(`requestid`, `groupid`, `rewardname`, `pointcost`, `rewarddescription`, `rewardeduser`) VALUES(NULL,?,?,?,?,?)")
+		st, postErr := db.Prepare("INSERT INTO PurchasedRewards(`requestid`, `groupid`, `rewardname`, `pointcost`, `rewarddescription`, `rewardeduser`) VALUES(NULL,?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
 		}
@@ -107,7 +107,7 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 
 		fmt.Println(RequestId)
 
-		st, putErr := db.Prepare("UPDATE RewardRequests SET GroupId=?, RewardName=?, PointCost=?, RewardDescription=?, RewardedUser=? WHERE RequestId=?")
+		st, putErr := db.Prepare("UPDATE PurchasedRewards SET GroupId=?, RewardName=?, PointCost=?, RewardDescription=?, RewardedUser=? WHERE RequestId=?")
 		if err != nil {
 			fmt.Print(putErr)
 		}
@@ -122,8 +122,8 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 		result = result[:1]
 
 	case DELETE:
-		RequestId := strings.Replace(request.URL.Path, "/api/rewardrequests/", "", -1)
-		st, deleteErr := db.Prepare("DELETE FROM RewardRequests where RequestId=?")
+		RequestId := strings.Replace(request.URL.Path, "/api/purchasedrewards/", "", -1)
+		st, deleteErr := db.Prepare("DELETE FROM PurchasedRewards where RequestId=?")
 		if deleteErr != nil {
 			fmt.Print(deleteErr)
 		}
