@@ -30,7 +30,7 @@ REFERENCES compromise.Groups (GroupId)
 );
 
 
-CREATE TABLE compromise.RewardRequests
+CREATE TABLE PurchasedRewards
 (
 RequestId int AUTO_INCREMENT,
 GroupId int,
@@ -40,7 +40,7 @@ RewardDescription varchar(255),
 RewardedUser varchar(255),
 PRIMARY KEY (RequestId),
 CONSTRAINT fk_RewardUser FOREIGN KEY (RewardedUser)
-REFERENCES compromise.Users (EmailAddress)
+REFERENCES Users (EmailAddress)
 );
 
 
