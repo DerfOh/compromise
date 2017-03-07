@@ -11,7 +11,7 @@ import (
 )
 
 // Reward to build the properties of what youre working with
-type RewardRequest struct {
+type PurchasedReward struct {
 	RequestId         int
 	GroupId           int
 	RewardName        string
@@ -22,8 +22,8 @@ type RewardRequest struct {
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// RewardReuestAPIHandler responds to /purchasedrewards/
-func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request) {
+// PurchasedRewardsAPIHandler responds to /purchasedrewards/
+func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Request) {
 
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
@@ -65,7 +65,7 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 			var RewardedUser string
 
 			getErr := rows.Scan(&RequestId, &GroupId, &RewardName, &PointCost, &RewardDescription, &RewardedUser)
-			reward := &RewardRequest{RequestId: RequestId, GroupId: GroupId, RewardName: RewardName, PointCost: PointCost, RewardDescription: RewardDescription, RewardedUser: RewardedUser}
+			reward := &PurchasedReward{RequestId: RequestId, GroupId: GroupId, RewardName: RewardName, PointCost: PointCost, RewardDescription: RewardDescription, RewardedUser: RewardedUser}
 			b, getErr := json.Marshal(reward)
 			if getErr != nil {
 				fmt.Println(getErr)
@@ -93,7 +93,7 @@ func RewardRequestAPIHandler(response http.ResponseWriter, request *http.Request
 		}
 
 		if res != nil {
-			result[0] = "Request Added"
+			result[0] = "Purchase Added"
 		}
 		result = result[:1]
 
