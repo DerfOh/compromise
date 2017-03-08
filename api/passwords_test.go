@@ -2,20 +2,7 @@ package main
 
 import "fmt"
 
-func ExampleHash() {
-	// s := CleanJSON("}\"")
-	// fmt.Println(s)
-
-	// s = CleanJSON("\"{")
-	// fmt.Println(s)
-
-	// s = CleanJSON("\\\"")
-	// fmt.Println(s)
-
-	// // Output: }
-	// // {
-	// // "
-
+func ExampleHashPassword() {
 	password := "secret"
 	hash, _ := HashPassword(password) // ignore error for the sake of simplicity
 
