@@ -144,6 +144,7 @@ func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Requ
 		return
 	}
 	
+
 	// Send the text diagnostics to the client. Clean backslashes from json
 	fmt.Fprintf(response, "%v", CleanJSON(string(json)))
 	//fmt.Fprintf(response, " request.URL.Path   '%v'\n", request.Method)
