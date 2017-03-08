@@ -16,6 +16,8 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"crypto/tls"
+    "golang.org/x/crypto/acme/autocert"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "golang.org/x/crypto/bcrypt"
@@ -50,7 +52,12 @@ var DELETE = "DELETE"
 
 // main funtion for app
 func main() {
-
+	certManager := autocert.Manager{
+        Prompt:     autocert.AcceptTOS,
+        HostPolicy: autocert.HostWhitelist("compromise.rocks"), //your domain here
+        Cache:      autocert.DirCache("certs"), //folder for storing certificates
+    }
+	
 	port := flag.Int("port", 1234, "an int")
 	dbAddress := flag.String("dbaddress", "localhost", "a string")
 	dbUserName := flag.String("dbuser", "compromise", "a string")
@@ -103,7 +110,17 @@ func main() {
 	// Start listing on a given port with these routes on this server.
 	logMessage = "Listening on port " + portstring + " ... "
 	log.Print(logMessage)
-	errs := http.ListenAndServe(":"+portstring, mux)
+
+	//errs := http.ListenAndServe(":"+portstring, mux)
+
+	
+	server := &http.Server{
+        Addr: ":443",
+        TLSConfig: &tls.Config{
+            GetCertificate: certManager.GetCertificate,
+        },
+    }
+	errs := server.ListenAndServeTLS(":"+portstring, mux)
 	if errs != nil {
 		log.Fatal("ListenAndServe error: ", err)
 	}
