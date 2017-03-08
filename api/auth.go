@@ -67,17 +67,19 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 			//fmt.Printf("Password is %s\n", Password)
 		}
 
-		// Compare variable returned from db query to provided Password
-		if Password == ProvidedPassword {
-			//return true if true
-			//fmt.Println("Password Match")
-			//result[0] = "Match"
-			authenticated = true
-		} else {
-			//fmt.Println("Password Mismatch")
-			//result[0] = "Invalid"
-			authenticated = false
-		}
+		authenticated := CheckPasswordHash(ProvidedPassword, Password)
+		// fmt.Println("Match:   ", match)
+		// // Compare variable returned from db query to provided Password
+		// if Password == ProvidedPassword {
+		// 	//return true if true
+		// 	//fmt.Println("Password Match")
+		// 	//result[0] = "Match"
+		// 	authenticated = true
+		// } else {
+		// 	//fmt.Println("Password Mismatch")
+		// 	//result[0] = "Invalid"
+		// 	authenticated = false
+		// }
 
 	default:
 		authenticated = false
