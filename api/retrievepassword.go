@@ -32,7 +32,7 @@ var result string
 
 // RetrievePasswordAPIHandler responds to /retrievepassword/
 func RetrievePasswordAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /retrievepassword/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

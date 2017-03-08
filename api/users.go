@@ -24,7 +24,7 @@ type User struct {
 
 // UserAPIHandler responds to /user/
 func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /user/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
