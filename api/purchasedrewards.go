@@ -25,6 +25,10 @@ type PurchasedReward struct {
 // PurchasedRewardsAPIHandler responds to /purchasedrewards/
 func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("Endpoint request: /purchasedrewards/ ")
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
@@ -143,7 +147,6 @@ func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Requ
 		fmt.Println(err)
 		return
 	}
-	
 
 	// Send the text diagnostics to the client. Clean backslashes from json
 	fmt.Fprintf(response, "%v", CleanJSON(string(json)))
