@@ -79,7 +79,8 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		FirstName := request.PostFormValue("FirstName")
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
-		Password := HashPassword(request.PostFormValue("Password"))
+		Password, _ := HashPassword(request.PostFormValue("Password"))
+		//GroupId := request.PostFormValue("GroupId")
 		st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
@@ -98,7 +99,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		FirstName := request.PostFormValue("FirstName")
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
-		Password := request.PostFormValue("Password")
+		Password, _ := HashPassword(request.PostFormValue("Password"))
 		EmailAddress := request.PostFormValue("EmailAddress")
 
 		st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")
