@@ -106,11 +106,6 @@ func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Requ
 		RewardDescription := request.PostFormValue("RewardDescription")
 		RewardedUser := request.PostFormValue("RewardedUser")
 
-<<<<<<< HEAD:api/purchasedrewards.go
-		fmt.Println(RequestId)
-
-=======
->>>>>>> dev-fredrick:api/purchasedrewards.go
 		st, putErr := db.Prepare("UPDATE PurchasedRewards SET GroupId=?, RewardName=?, PointCost=?, RewardDescription=?, RewardedUser=? WHERE RequestId=?")
 		if err != nil {
 			fmt.Print(putErr)
