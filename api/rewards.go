@@ -21,9 +21,9 @@ type Reward struct {
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// RewardAPIHandler responds to /Rewards/
+// RewardAPIHandler responds to /rewards/
 func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /rewards/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

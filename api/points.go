@@ -22,7 +22,7 @@ type Points struct {
 
 // PointsAPIHandler responds to /points/
 func PointsAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /points/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

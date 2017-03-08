@@ -21,7 +21,7 @@ type TaskLeader struct {
 
 // TaskLeaderAPIHandler responds to /taskleaders/
 func TaskLeaderAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /taskleaders/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

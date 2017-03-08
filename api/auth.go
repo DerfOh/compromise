@@ -30,9 +30,9 @@ var authenticated bool
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// AuthAPIHandler responds to /retievepassword/
+// AuthAPIHandler responds to /auth/
 func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /auth/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
