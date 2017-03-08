@@ -19,6 +19,7 @@ WORKDIR /app
 
 # Retrieve the files for mysql from github
 RUN go get github.com/go-sql-driver/mysql
+RUN go get golang.org/x/crypto/bcrypt
 
 # Build the application
 RUN go build -o main . 
@@ -29,3 +30,6 @@ RUN go build -o main .
 EXPOSE 80 80
 
 CMD ["sh", "-c","/app/main -port ${APIPORT} -dbaddress ${DBADDRESS} -dbuser ${DBUSER} -dbpassword ${DBPASSWORD} Docker "]
+
+# Example command for testing the container locally
+# docker run -it -e DBADDRESS='127.0.0.1' -e DBPASSWORD='password' -e port=1234 -p 80:80 derfoh/compromise

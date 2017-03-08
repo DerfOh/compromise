@@ -18,6 +18,7 @@ import (
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
+	_ "golang.org/x/crypto/bcrypt"
 )
 
 // dbAddress the api will connect to, is set by flag, defaults to localhost passed in via args

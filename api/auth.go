@@ -30,9 +30,9 @@ var authenticated bool
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// AuthAPIHandler responds to /retievepassword/
+// AuthAPIHandler responds to /auth/
 func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /auth/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
@@ -67,20 +67,20 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 			//fmt.Printf("Password is %s\n", Password)
 		}
 
+		match := CheckPasswordHash(ProvidedPassword, Password)
+		// fmt.Println("Match:   ", match)
 		// Compare variable returned from db query to provided Password
-		if Password == ProvidedPassword {
+		if match {
 			//return true if true
-			//fmt.Println("Password Match")
-			//result[0] = "Match"
+			fmt.Println("Password Match")
 			authenticated = true
 		} else {
-			//fmt.Println("Password Mismatch")
-			//result[0] = "Invalid"
+			fmt.Println("Password Miss")
 			authenticated = false
 		}
 
 	default:
-		authenticated = false
+		// authenticated = false
 	}
 
 	json, err := json.Marshal(authenticated)

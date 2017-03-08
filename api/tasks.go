@@ -25,7 +25,7 @@ type Task struct {
 
 // TaskAPIHandler responds to /tasks/
 func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	fmt.Println("Endpoint request: /tasks/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
