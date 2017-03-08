@@ -24,7 +24,7 @@ type PurchasedReward struct {
 
 // PurchasedRewardsAPIHandler responds to /purchasedrewards/
 func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Endpoint request: /purchasedrewards/ "))
+	fmt.Println("Endpoint request: /purchasedrewards/ ")
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
