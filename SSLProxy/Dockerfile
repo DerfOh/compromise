@@ -1,5 +1,5 @@
 FROM alpine:3.5
-MAINTAINER Abiola Ibrahim <abiola89@gmail.com>
+MAINTAINER Fredrick Paulin <fjp0293@gmail.com>
 
 LABEL caddy_version="0.9.5" architecture="amd64"
 
