@@ -51,13 +51,7 @@ var PUT = "PUT"
 var DELETE = "DELETE"
 
 // main funtion for app
-func main() {
-	certManager := autocert.Manager{
-        Prompt:     autocert.AcceptTOS,
-        HostPolicy: autocert.HostWhitelist("compromise.rocks"), //your domain here
-        Cache:      autocert.DirCache("certs"), //folder for storing certificates
-    }
-	
+func main() {	
 	port := flag.Int("port", 1234, "an int")
 	dbAddress := flag.String("dbaddress", "localhost", "a string")
 	dbUserName := flag.String("dbuser", "compromise", "a string")
