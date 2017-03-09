@@ -1,19 +1,17 @@
-# compromise-proxy:
-#   image: derfoh/compromise-proxy
-#   links:
-#     - compromise-api
-#   ports:
-#     - "80:80"
-#   roles:
-#     - global
+compromise-api:
+  autoredeploy: true
+  environment:
+#    - DBADDRESS=#######
+#    - DBPASSWORD=########
+  image: 'derfoh/compromise-api:latest'
+  restart: on-failure
+  sequential_deployment: true
+  target_num_containers: 2
 lb:
-  image: dockercloud/haproxy
+  image: 'dockercloud/haproxy:latest'
   links:
     - compromise-api
   ports:
-    - "80:80"
+    - '80:80'
   roles:
     - global
-compromise-api:
-  image: derfoh/compromise-api
-  target_num_containers: 2
