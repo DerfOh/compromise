@@ -16,8 +16,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"crypto/tls"
-    "golang.org/x/crypto/acme/autocert"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "golang.org/x/crypto/bcrypt"
@@ -105,16 +103,7 @@ func main() {
 	logMessage = "Listening on port " + portstring + " ... "
 	log.Print(logMessage)
 
-	//errs := http.ListenAndServe(":"+portstring, mux)
-
-	
-	server := &http.Server{
-        Addr: ":443",
-        TLSConfig: &tls.Config{
-            GetCertificate: certManager.GetCertificate,
-        },
-    }
-	errs := server.ListenAndServeTLS(":"+portstring, mux)
+	errs := http.ListenAndServe(":"+portstring, mux)
 	if errs != nil {
 		log.Fatal("ListenAndServe error: ", err)
 	}
