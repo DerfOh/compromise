@@ -1,17 +1,21 @@
 compromise-api:
   autoredeploy: true
   environment:
-#    - DBADDRESS=#######
-#    - DBPASSWORD=########
+    - DBADDRESS=198.199.75.80
+    - DBPASSWORD=compromiseRocks123
   image: 'derfoh/compromise-api:latest'
   restart: on-failure
   sequential_deployment: true
   target_num_containers: 2
 lb:
-  image: 'dockercloud/haproxy:latest'
+  environment:
+    - 'CERTS=compromise.rocks,www.compromise.rocks'
+    - EMAIL=fjp0293@gmail.com
+  image: 'derfoh/compromise-proxy:latest'
   links:
     - compromise-api
   ports:
     - '80:80'
+    - '443:443'
   roles:
     - global
