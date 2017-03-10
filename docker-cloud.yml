@@ -1,3 +1,15 @@
+# SSL:
+#   environment:
+#     - CERTS=www.compromise.rocks
+#     - EMAIL=fjp0293@gmail.com
+#   image: 'derfoh/compromise-proxy:latest'
+#   links:
+#     - lb
+#   ports:
+#     - '80:80'
+#     - '443:443'
+#   roles:
+#     - global
 compromise-api:
   autoredeploy: true
   environment:
@@ -8,14 +20,10 @@ compromise-api:
   sequential_deployment: true
   target_num_containers: 2
 lb:
-  environment:
-    - 'CERTS=compromise.rocks,www.compromise.rocks'
-    - EMAIL=fjp0293@gmail.com
-  image: 'derfoh/compromise-proxy:latest'
+  image: 'dockercloud/haproxy:latest'
   links:
     - compromise-api
   ports:
     - '80:80'
-    - '443:443'
   roles:
     - global
