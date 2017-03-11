@@ -30,8 +30,8 @@ test:
   override:
     # go overrides
     - go test ./...
-    - docker run -d -p 443:443 derfoh/compromise-api; sleep 10
-    - curl --retry 10 --retry-delay 30 -v http://localhost:443
+    - docker run -d -p 80:80 derfoh/compromise-api; sleep 10
+    - curl --retry 10 --retry-delay 30 -v http://localhost
     # android overrides
     - ls compromise-app/build
     - chmod +x compromise-app/gradlew
