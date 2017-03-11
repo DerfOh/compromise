@@ -33,7 +33,7 @@ var dbPassword string
 // dbConnectionURL the url used to perform db connection passed in via args
 var dbConnectionURL string
 
-// conenction message
+// connection message
 var logMessage string
 
 // GET string constant
@@ -48,7 +48,7 @@ var PUT = "PUT"
 // DELETE string constant
 var DELETE = "DELETE"
 
-// main funtion for app
+// main function for app
 func main() {	
 	port := flag.Int("port", 1234, "an int")
 	dbAddress := flag.String("dbaddress", "localhost", "a string")
@@ -94,7 +94,7 @@ func main() {
 	mux.Handle("/api/groups/", http.HandlerFunc(GroupAPIHandler))
 	// Handler for Authentication of users
 	mux.Handle("/api/auth/", http.HandlerFunc(AuthAPIHandler))
-	// Handler for retrievepassword
+	// Handler for retrieve password
 	mux.Handle("/api/retrievepassword/", http.HandlerFunc(RetrievePasswordAPIHandler))
 	// Default path handler
 	mux.Handle("/", http.HandlerFunc(Handler))
