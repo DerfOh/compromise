@@ -1,29 +1,30 @@
-SSL:
+compromise-api:
+  autoredeploy: true
   environment:
-    - CERTS=www.compromise.rocks
-    - EMAIL=fjp0293@gmail.com
-  image: 'derfoh/compromise-proxy:latest'
+    - DBADDRESS=##############
+    - DBPASSWORD=##############
+    - FORCE_SSL=yes
+    - 'VIRTUAL_HOST=*,https://*'
+  image: 'derfoh/compromise-api:latest'
+  restart: on-failure
+  sequential_deployment: true
+  target_num_containers: 2
+haproxy:
+  image: 'turistforeningen/dockercloud-haproxy-letsencrypt:haproxy'
   links:
-    - lb
+    - compromise-api
+    - letsencrypt
   ports:
     - '80:80'
     - '443:443'
   roles:
     - global
-compromise-api:
-  autoredeploy: true
+  volumes_from:
+    - letsencrypt
+letsencrypt:
   environment:
-    - DBADDRESS=198.199.75.80
-    - DBPASSWORD=compromiseRocks123
-  image: 'derfoh/compromise-api:latest'
-  restart: on-failure
-  sequential_deployment: true
-  target_num_containers: 2
-lb:
-  image: 'dockercloud/haproxy:latest'
-  links:
-    - compromise-api
-  ports:
-    - '8080:80'
-  roles:
-    - global
+    - DOMAINS=www.compromise.rocks
+    - EMAIL=fjp0293@gmail.com
+  expose:
+    - '80'
+  image: 'turistforeningen/dockercloud-haproxy-letsencrypt:letsencrypt'
