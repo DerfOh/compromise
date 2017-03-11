@@ -1,6 +1,0 @@
-www.compromise.rocks {
-        tls fjp0293@gmail.com
-        proxy / 159.203.14.233:8080 {
-                websocket
-        }
-}
