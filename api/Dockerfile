@@ -28,9 +28,10 @@ RUN go build -o main .
 
 # Set Test port
 # EXPOSE 1234 1234
-# Set production port
-# EXPOSE 80 80
-EXPOSE 443 443
+
+# Set production port, SSL is handled on loadbalancer
+EXPOSE 80 80
+#EXPOSE 443 443
 
 CMD ["sh", "-c","/app/main -port ${APIPORT} -dbaddress ${DBADDRESS} -dbuser ${DBUSER} -dbpassword ${DBPASSWORD} Docker "]
 

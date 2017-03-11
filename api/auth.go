@@ -67,7 +67,6 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 			//fmt.Printf("Password is %s\n", Password)
 		}
 
-
 		match := CheckPasswordHash(ProvidedPassword, Password)
 		// fmt.Println("Match:   ", match)
 		// Compare variable returned from db query to provided Password
