@@ -80,7 +80,6 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
 		Password, _ := HashPassword(request.PostFormValue("Password"))
-		//GroupId := request.PostFormValue("GroupId")
 		st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
