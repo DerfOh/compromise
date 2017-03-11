@@ -6,8 +6,8 @@ MAINTAINER Fredrick Paulin <fredrick.p@outlook.com>
 ENV DBADDRESS localhost
 ENV DBUSER compromise
 ENV DBPASSWORD password
-# ENV APIPORT 80
-ENV APIPORT 443
+ENV APIPORT 80
+# ENV APIPORT 443
 
 # Create the directory for the application to run from
 RUN mkdir /app 
