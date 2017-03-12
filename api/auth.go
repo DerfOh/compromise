@@ -14,6 +14,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"log"
 	"net/http"
 
@@ -32,7 +33,9 @@ var authenticated bool
 
 // AuthAPIHandler responds to /auth/
 func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Endpoint request: /auth/ ")
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: auth | "
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
@@ -60,7 +63,7 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 		queryErr := db.QueryRow("SELECT Password FROM Users WHERE EmailAddress=?", EmailAddress).Scan(&Password)
 		switch {
 		case queryErr == sql.ErrNoRows:
-			log.Printf("No user with EmailAddress: %s\n", EmailAddress)
+			log.Printf(logRequest, "No user with EmailAddress: %s\n", EmailAddress)
 		case queryErr != nil:
 			log.Fatal(queryErr)
 		default:
@@ -72,10 +75,10 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 		// Compare variable returned from db query to provided Password
 		if match {
 			//return true if true
-			fmt.Println("Password Match")
+			fmt.Println(logRequest, "Password Match")
 			authenticated = true
 		} else {
-			fmt.Println("Password Miss")
+			fmt.Println(logRequest, "Password Miss")
 			authenticated = false
 		}
 

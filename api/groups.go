@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"net/http"
 	"strings"
 
@@ -21,8 +22,9 @@ type Group struct {
 
 // GroupAPIHandler responds to /groups/
 func GroupAPIHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Endpoint request: /groups/ ")
-	//Connect to database
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: groups | " //Connect to database
+	fmt.Println(logRequest)
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)

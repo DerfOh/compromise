@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"net/http"
 	"strings"
 
@@ -22,7 +23,9 @@ type Points struct {
 
 // PointsAPIHandler responds to /points/
 func PointsAPIHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Endpoint request: /points/ ")
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: points | "
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

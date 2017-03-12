@@ -15,6 +15,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"log"
 	"net/http"
 
@@ -32,7 +33,9 @@ var result string
 
 // RetrievePasswordAPIHandler responds to /retrievepassword/
 func RetrievePasswordAPIHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Endpoint request: /retrievepassword/ ")
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: retrievepassword | "
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
@@ -59,7 +62,7 @@ func RetrievePasswordAPIHandler(response http.ResponseWriter, request *http.Requ
 		queryErr := db.QueryRow("SELECT Password FROM Users WHERE EmailAddress=?", EmailAddress).Scan(&Password)
 		switch {
 		case queryErr == sql.ErrNoRows:
-			log.Printf("No user with EmailAddress: %s\n", EmailAddress)
+			log.Printf(logRequest, "No user with EmailAddress: %s\n", EmailAddress)
 		case queryErr != nil:
 			log.Fatal(queryErr)
 		default:

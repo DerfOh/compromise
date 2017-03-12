@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"net/http"
 	"strings"
 
@@ -21,7 +22,9 @@ type TaskLeader struct {
 
 // TaskLeaderAPIHandler responds to /taskleaders/
 func TaskLeaderAPIHandler(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Endpoint request: /taskleaders/ ")
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: taskleaders |"
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

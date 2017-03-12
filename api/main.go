@@ -49,7 +49,7 @@ var PUT = "PUT"
 var DELETE = "DELETE"
 
 // main function for app
-func main() {	
+func main() {
 	port := flag.Int("port", 1234, "an int")
 	dbAddress := flag.String("dbaddress", "localhost", "a string")
 	dbUserName := flag.String("dbuser", "compromise", "a string")
