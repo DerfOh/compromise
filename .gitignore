@@ -21,6 +21,7 @@ dev/*
 *.swo
 *.swp
 *.tgz
+*.rawproto
 .DS_Store
 .idea
 .project
