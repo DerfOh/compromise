@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/pointsImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/points" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/pointsImage"
+        android:layout_alignTop="@+id/pointsImage"
+        android:layout_alignRight="@+id/pointsImage"
+        android:layout_alignBottom="@+id/pointsImage"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:textColor="#000000" />
+
+<TextView
+    android:id="@+id/tvChild"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@+id/pointsImage"
+    android:layout_centerVertical="true"
+    android:paddingLeft="25dp" />
+
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentRight="true"
+    android:src="@drawable/keyboard_right_arrow" />
+</RelativeLayout>

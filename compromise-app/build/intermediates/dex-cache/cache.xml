@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\2630a90857dd01df88b53b9772661b8bb0e06709\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="67eb33110dbacb46a48175b08ae0c96761d2c17d">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_e8b6a5470c0596dc297e9f4633987bce433cc894.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Temp\git\compromise\compromise-app\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_1f6eeaf602e813bcca1f5de49aaa4258f745a081\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\d01977c790a2453d2747bf6dfc4dfaaeef9e75f1\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_8c4e754fc0184dad09fea5529b45104a2bdf61b4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\262436e44b49e85281f376fb89a13f200c642d45\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ee394a892dd21c03a528139c1e8d4e0e1264ac84">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_afc5b78cba79fb21f786c744f4e906acedc44f37.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Temp\git\compromise\compromise-app\app\libs\additionnal.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\transforms\dex\debug\folders\1000\2\additionnal_4b91a5ee6c92a8938b8b1c43d0e73cff2de97af9\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\6ccf9be3d9b1c1a83eba25ad550c5993a6177f77\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="c8ba41bea7f78f8bdf3a803b9d08eb3fff416706">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_1c6c4e344f3c82c90e80ca5e8b0868bc9d2ce128.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Temp\git\compromise\compromise-app\app\libs\additionnal.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\additionnal_4b91a5ee6c92a8938b8b1c43d0e73cff2de97af9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\3c3bd28fbcc1a04e1a00790dc03d3aecea9234ac\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_c79deaaefabdacd0977a89b8d61f6e7b6a8bf671.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Temp\git\compromise\compromise-app\app\libs\mail.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\transforms\dex\debug\folders\1000\2\mail_a8105ae26cc48e905cb28143ce1bd7597114e5f2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Temp\git\compromise\compromise-app\app\libs\activation.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\transforms\dex\debug\folders\1000\2\activation_94c73a6afa5133a7274f57205c7ec961e6671e65\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\77a70879057e3e7ae2dbdf76d20e0e9ca1dbcbed\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="ea6a989b83d19b1b461281e0475a6cd6514897f8">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_fb6618b3ecc40fb3a73ee86a0f457278e1c9b26d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\1ee0a7731ee6fcb94963cfd929f1ce8696d27613\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="cb454b52545859ed2f24a6c01366805b0fa04b22">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_3904d7da97365a20cf716592f5c30fa80671abc2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Temp\git\compromise\compromise-app\app\libs\activation.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\activation_94c73a6afa5133a7274f57205c7ec961e6671e65.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Temp\git\compromise\compromise-app\app\libs\mail.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\mail_a8105ae26cc48e905cb28143ce1bd7597114e5f2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\823d204b7fe8aee0d6ebefeb98a7e52c563fe4f7\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="702d339bc0a81d21354cd7e2cf2b67225fa4a16c">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_30946c288006348ef7bf05764b6065a5dceefec3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\abf7d79c1568287633d3343d4c81cb285392bb4e\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="152de8da301561dcb0946471697a420d8f7a68c5">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_bbaf2c95729eb9a44f4916f9851bb62003235915.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\9c1c073c9b41de06c7fdb23cc8e1a78dd266329d\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e51c2f662bb72419632af5192553c37e33890a99">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_d67e8fa6a35ae65b56f2e118219d937147d058c0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\5a9b2bd5b7c4fb77ca89e53ed5177a782e3acc62\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fa0446a14ed5dd3725047d6399ffea771a564b30">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_1973bb3476001d4927a8831f15a8d9c91709d5dc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\311a9717171a3e90afe0bfba4b41ce2ec1ea59d2\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="e820b7be8c035dd522da4bc822e8a76c8e27921a">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_6a2582b6da6044f02eef83586657174ed7fb9262.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Temp\git\compromise\compromise-app\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="8c8b2fc2d757189b833db0240ce19521e1ccdacf">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_7d4add1c8a15e2109c9533b6bdf1d1ee16798241\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.0-alpha8\constraint-layout-solver-1.0.0-alpha8.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="80c371a4fd5e1b77f0e3a25b171356878543ffdd">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\constraint-layout-solver-1.0.0-alpha8_e5f576420fe0014d0c85ab9acb14b5f066c41139.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\009da2297316c97a01e105b9bf97862f21fcf537\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="810f41e5b7fd99f196ebeabe865ba2c54e7e76dc">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_6d4370598f2423317f1731ee50eba448973d0786.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\.android\build-cache\ce6b971fcfbb2d32c65fcc37d5122ff4ae7fd68b\output\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="0e753ea8d0a2dea270da7d96a7d6e9d2e9c10f94">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\classes_476cd78373599580453f78e48753e1d242414ff2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\nsammut\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.2.0\support-annotations-25.2.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4a5a82a027706397fff621b22fd6fa796e91d7c5">
+        <dex dex="C:\Temp\git\compromise\compromise-app\app\build\intermediates\pre-dexed\debug\support-annotations-25.2.0_f431a6d67188ccba95ba96184c364cbad1645f7f.jar" />
+    </item>
+
+</items>
