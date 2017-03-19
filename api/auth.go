@@ -14,6 +14,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"log"
 	"net/http"
 
@@ -30,9 +31,11 @@ var authenticated bool
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// AuthAPIHandler responds to /retievepassword/
+// AuthAPIHandler responds to /auth/
 func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: auth | "
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
@@ -60,27 +63,27 @@ func AuthAPIHandler(response http.ResponseWriter, request *http.Request) {
 		queryErr := db.QueryRow("SELECT Password FROM Users WHERE EmailAddress=?", EmailAddress).Scan(&Password)
 		switch {
 		case queryErr == sql.ErrNoRows:
-			log.Printf("No user with EmailAddress: %s\n", EmailAddress)
+			log.Printf(logRequest, "No user with EmailAddress: %s\n", EmailAddress)
 		case queryErr != nil:
 			log.Fatal(queryErr)
 		default:
 			//fmt.Printf("Password is %s\n", Password)
 		}
 
+		match := CheckPasswordHash(ProvidedPassword, Password)
+		// fmt.Println("Match:   ", match)
 		// Compare variable returned from db query to provided Password
-		if Password == ProvidedPassword {
+		if match {
 			//return true if true
-			//fmt.Println("Password Match")
-			//result[0] = "Match"
+			fmt.Println(logRequest, "Password Match")
 			authenticated = true
 		} else {
-			//fmt.Println("Password Mismatch")
-			//result[0] = "Invalid"
+			fmt.Println(logRequest, "Password Miss")
 			authenticated = false
 		}
 
 	default:
-		authenticated = false
+		// authenticated = false
 	}
 
 	json, err := json.Marshal(authenticated)

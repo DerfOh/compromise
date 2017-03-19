@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"net/http"
 	"strings"
 
@@ -24,7 +25,9 @@ type User struct {
 
 // UserAPIHandler responds to /user/
 func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: users | "
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
@@ -79,7 +82,9 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		FirstName := request.PostFormValue("FirstName")
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
-		Password := request.PostFormValue("Password")
+		Password, _ := HashPassword(request.PostFormValue("Password"))
+		//GroupId := request.PostFormValue("GroupId")
+
 		st, postErr := db.Prepare("INSERT INTO Users VALUES(?,?,?,?,?)")
 		if err != nil {
 			fmt.Print(err)
@@ -98,7 +103,7 @@ func UserAPIHandler(response http.ResponseWriter, request *http.Request) {
 		FirstName := request.PostFormValue("FirstName")
 		LastName := request.PostFormValue("LastName")
 		Nickname := request.PostFormValue("Nickname")
-		Password := request.PostFormValue("Password")
+		Password, _ := HashPassword(request.PostFormValue("Password"))
 		EmailAddress := request.PostFormValue("EmailAddress")
 
 		st, putErr := db.Prepare("UPDATE Users SET FirstName=?, LastName=?, Nickname=?, Password=? WHERE EmailAddress=?")

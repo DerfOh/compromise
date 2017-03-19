@@ -8,6 +8,7 @@ dependencies:
   pre:
     # set up golang dependencies
     - go get github.com/derfoh/compromise/api
+    - go get golang.org/x/crypto/bcrypt
 
     # set up android dependencies
     - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-24,android-24,extra-google-m2repository,extra-google-google_play_services,extra-android-support
@@ -30,7 +31,7 @@ test:
     # go overrides
     - go test ./...
     - docker run -d -p 80:80 derfoh/compromise-api; sleep 10
-    - curl --retry 10 --retry-delay 30 -v http://localhost/
+    - curl --retry 10 --retry-delay 30 -v http://localhost
     # android overrides
     - ls compromise-app/build
     - chmod +x compromise-app/gradlew

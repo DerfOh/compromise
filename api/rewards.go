@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"net/http"
 	"strings"
 
@@ -21,9 +22,11 @@ type Reward struct {
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// RewardAPIHandler responds to /Rewards/
+// RewardAPIHandler responds to /rewards/
 func RewardAPIHandler(response http.ResponseWriter, request *http.Request) {
-
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: rewards | "
+	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

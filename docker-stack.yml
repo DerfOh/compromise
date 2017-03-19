@@ -1,0 +1,30 @@
+compromise-api:
+  autoredeploy: true
+  environment:
+    - DBADDRESS=##############
+    - DBPASSWORD=##############
+    - FORCE_SSL=yes
+    - 'VIRTUAL_HOST=*,https://*'
+  image: 'derfoh/compromise-api:latest'
+  restart: on-failure
+  sequential_deployment: true
+  target_num_containers: 2
+haproxy:
+  image: 'turistforeningen/dockercloud-haproxy-letsencrypt:haproxy'
+  links:
+    - compromise-api
+    - letsencrypt
+  ports:
+    - '80:80'
+    - '443:443'
+  roles:
+    - global
+  volumes_from:
+    - letsencrypt
+letsencrypt:
+  environment:
+    - DOMAINS=www.compromise.rocks
+    - EMAIL=fjp0293@gmail.com
+  expose:
+    - '80'
+  image: 'turistforeningen/dockercloud-haproxy-letsencrypt:letsencrypt'

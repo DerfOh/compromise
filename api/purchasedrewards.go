@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"time"
 	"net/http"
 	"strings"
 
@@ -24,8 +25,9 @@ type PurchasedReward struct {
 
 // PurchasedRewardsAPIHandler responds to /purchasedrewards/
 func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Request) {
-
-	//Connect to database
+	t := time.Now()
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: purchasedrewards | "	//Connect to database
+	fmt.Println(logRequest)
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {
 		fmt.Print(e)
@@ -104,8 +106,6 @@ func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Requ
 		PointCost := request.PostFormValue("PointCost")
 		RewardDescription := request.PostFormValue("RewardDescription")
 		RewardedUser := request.PostFormValue("RewardedUser")
-
-		fmt.Println(RequestId)
 
 		st, putErr := db.Prepare("UPDATE PurchasedRewards SET GroupId=?, RewardName=?, PointCost=?, RewardDescription=?, RewardedUser=? WHERE RequestId=?")
 		if err != nil {
