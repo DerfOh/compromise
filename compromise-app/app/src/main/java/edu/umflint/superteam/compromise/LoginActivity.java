@@ -239,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
             // TODO: attempt authentication against a network service.
 
             try {
-                String url = "http://api.compromise.rocks/api/auth/";
+                String url = "https://api.compromise.rocks/api/auth/";
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

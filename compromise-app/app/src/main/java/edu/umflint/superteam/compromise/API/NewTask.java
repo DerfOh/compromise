@@ -35,7 +35,7 @@ public class NewTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         try {
-            String url = "http://api.compromise.rocks/api/tasks/";
+            String url = "https://api.compromise.rocks/api/tasks/";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

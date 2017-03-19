@@ -36,7 +36,7 @@ public class GetTaskLeaders extends AsyncTask<Void, Void, Boolean> {
     protected Boolean doInBackground(Void... params) {
         boolean isLeader = false;
         try {
-            String url = "http://api.compromise.rocks/api/taskleaders/" + mGroup;
+            String url = "https://api.compromise.rocks/api/taskleaders/" + mGroup;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

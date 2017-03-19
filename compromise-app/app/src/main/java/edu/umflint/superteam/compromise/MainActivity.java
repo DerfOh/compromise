@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             // TODO: attempt authentication against a network service.
 
             try {
-                String url = "http://api.compromise.rocks/api/groups/" + mEmail;
+                String url = "https://api.compromise.rocks/api/groups/" + mEmail;
                 URL obj = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
