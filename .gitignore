@@ -21,7 +21,10 @@ dev/*
 *.swo
 *.swp
 *.tgz
+<<<<<<< HEAD
 *.rawproto
+=======
+>>>>>>> master
 .DS_Store
 .idea
 .project
@@ -30,3 +33,7 @@ coverage
 node_modules
 npm-debug.log
 >>>>>>> master
+
+*.rawproto
+
+compromise-app/local.properties
