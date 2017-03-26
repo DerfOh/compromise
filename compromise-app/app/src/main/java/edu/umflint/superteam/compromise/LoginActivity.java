@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if(!prefs.getString("EmailAddress", null).isEmpty())
+        if(prefs.getString("EmailAddress", "") != "")
         {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
