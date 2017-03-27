@@ -23,7 +23,6 @@
     </android.support.design.widget.AppBarLayout>
 
 
-
     <include layout="@layout/content_group_member" />
 
 </android.support.design.widget.CoordinatorLayout>
