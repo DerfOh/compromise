@@ -26,10 +26,10 @@ type CompletedTask struct {
 
 // APIHandler Respond to URLs of the form /generic/...
 
-// CompleteTaskAPIHandler responds to /tasks/
+// CompleteTaskAPIHandler responds to /completetask/
 func CompleteTaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 	t := time.Now()
-	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: tasks | "
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: completetask | "
 	fmt.Println(logRequest)
 	//Connect to database
 	db, e := sql.Open("mysql", dbConnectionURL)
@@ -60,7 +60,7 @@ func CompleteTaskAPIHandler(response http.ResponseWriter, request *http.Request)
 		pointValueQueryErr := db.QueryRow("SELECT PointValue from Tasks where TaskId=?", TaskId).Scan(&PointValue)
 		switch {
 		case pointValueQueryErr == sql.ErrNoRows:
-			log.Printf(logRequest, "No Task with ID: %s\n", TaskId)
+			log.Printf(logRequest, "No Task with ID: \n", TaskId)
 		case pointValueQueryErr != nil:
 			log.Fatal(pointValueQueryErr)
 		default:
@@ -69,10 +69,10 @@ func CompleteTaskAPIHandler(response http.ResponseWriter, request *http.Request)
 
 		// Retrieve User's TotalPoints from database
 		var TotalPoints string
-		pointTotalQueryErr := db.QueryRow("SELECT TotalPoints from Points where EmailAddress=? AND GroupId=?", EmailAddress, GroupId).Scan(&TotalPoints)
+		pointTotalQueryErr := db.QueryRow("SELECT `TotalPoints` from `Points` where `EmailAddress`=? AND `GroupId`=?", EmailAddress, GroupId).Scan(&TotalPoints)
 		switch {
 		case pointTotalQueryErr == sql.ErrNoRows:
-			log.Printf(logRequest, "No Task with ID: %s\n", TaskId)
+			log.Printf(logRequest, "No User with Email: \n", EmailAddress)
 		case pointTotalQueryErr != nil:
 			log.Fatal(pointTotalQueryErr)
 		default:
@@ -83,7 +83,7 @@ func CompleteTaskAPIHandler(response http.ResponseWriter, request *http.Request)
 		TotalPoints += PointValue
 
 		// Perform update action on task table
-		st, putErr := db.Prepare("UPDATE Tasks SET CompletionStatus=?, CompletedBy=? WHERE TaskId=?")
+		st, putErr := db.Prepare("UPDATE `Tasks` SET `CompletionStatus`=?, `CompletedBy`=? WHERE `TaskId`=?")
 		if err != nil {
 			fmt.Print(putErr)
 		}
