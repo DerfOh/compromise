@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+api.exe
 dev/*
 *.iml
 .gradle
@@ -9,7 +9,6 @@ dev/*
 /build
 /captures
 .externalNativeBuild
-=======
 *.csv
 *.dat
 *.iml
@@ -28,4 +27,3 @@ dev/*
 coverage
 node_modules
 npm-debug.log
->>>>>>> master

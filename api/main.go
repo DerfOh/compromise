@@ -82,6 +82,8 @@ func main() {
 	mux.Handle("/api/users/", http.HandlerFunc(UserAPIHandler))
 	// Handler for Task interactions
 	mux.Handle("/api/tasks/", http.HandlerFunc(TaskAPIHandler))
+	// Handler for CompleteTask interactions
+	mux.Handle("/api/completetask/", http.HandlerFunc(CompleteTaskAPIHandler))
 	// Handler for TaskLeader interactions
 	mux.Handle("/api/taskleaders/", http.HandlerFunc(TaskLeaderAPIHandler))
 	// Handler for Points interactions
