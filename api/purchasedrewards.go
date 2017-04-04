@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"time"
 	"net/http"
 	"strings"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -26,7 +26,7 @@ type PurchasedReward struct {
 // PurchasedRewardsAPIHandler responds to /purchasedrewards/
 func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Request) {
 	t := time.Now()
-	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: purchasedrewards | "	//Connect to database
+	logRequest := t.Format("2006/01/02 15:04:05") + " | Request:" + request.Method + " | Endpoint: purchasedrewards | " //Connect to database
 	fmt.Println(logRequest)
 	db, e := sql.Open("mysql", dbConnectionURL)
 	if e != nil {

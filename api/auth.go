@@ -14,9 +14,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"time"
 	"log"
 	"net/http"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
