@@ -87,7 +87,7 @@ func TaskAPIHandler(response http.ResponseWriter, request *http.Request) {
 		CompletionStatus := request.PostFormValue("CompletionStatus")
 		//CompletedBy := request.PostFormValue("CompletedBy")
 		PointValue := request.PostFormValue("PointValue")
-		st, postErr := db.Prepare("INSERT INTO Tasks(`taskid`, `groupid`, `taskname`, `taskdescription`, `completionstatus`, `completedby`,`pointvalue`) VALUES(NULL,?,?,?,?,NULL,?)")
+		st, postErr := db.Prepare("INSERT INTO Tasks(`taskid`, `groupid`, `taskname`, `taskdescription`, `completionstatus`, `completedby`,`pointvalue`) VALUES(NULL,?,?,?,?,'NA',?)")
 		if err != nil {
 			fmt.Print(err)
 		}
