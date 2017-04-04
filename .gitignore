@@ -20,7 +20,6 @@ dev/*
 *.swo
 *.swp
 *.tgz
-*.xml
 .DS_Store
 .idea
 .project
