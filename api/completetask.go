@@ -64,7 +64,6 @@ func CompleteTaskAPIHandler(response http.ResponseWriter, request *http.Request)
 		case pointValueQueryErr != nil:
 			log.Fatal(pointValueQueryErr)
 		default:
-			//fmt.Printf("Password is %s\n", Password)
 		}
 
 		// Retrieve User's TotalPoints from database
