@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -79,25 +81,60 @@ func PurchasedRewardsAPIHandler(response http.ResponseWriter, request *http.Requ
 		result = result[:i]
 
 	case POST:
-		//RequestId := request.PostFormValue("RequestId")
+
 		GroupId := request.PostFormValue("GroupId")
 		RewardName := request.PostFormValue("RewardName")
 		PointCost := request.PostFormValue("PointCost")
 		RewardDescription := request.PostFormValue("RewardDescription")
 		RewardedUser := request.PostFormValue("RewardedUser")
-		st, postErr := db.Prepare("INSERT INTO PurchasedRewards(`requestid`, `groupid`, `rewardname`, `pointcost`, `rewarddescription`, `rewardeduser`) VALUES(NULL,?,?,?,?,?)")
-		if err != nil {
-			fmt.Print(err)
-		}
-		res, postErr := st.Exec(GroupId, RewardName, PointCost, RewardDescription, RewardedUser)
-		if postErr != nil {
-			fmt.Print(postErr)
-		}
 
-		if res != nil {
-			result[0] = "Purchase Added"
+		var UserBalance int
+		userBalanceQueryErr := db.QueryRow("SELECT TotalPoints FROM `Points` WHERE `EmailAddress`=? AND `GroupId`=?", RewardedUser, GroupId).Scan(&UserBalance)
+		switch {
+		case userBalanceQueryErr == sql.ErrNoRows:
+			log.Printf(logRequest, "Unable to find user and group: \n", RewardedUser, GroupId)
+		case userBalanceQueryErr != nil:
+			log.Fatal(userBalanceQueryErr)
+		default:
 		}
-		result = result[:1]
+		costInt, err := strconv.Atoi(PointCost)
+		if UserBalance > costInt {
+			// Update user's points
+			UserBalance -= costInt
+
+			// Update database row
+			stBalanceUpdate, postBalanceUpdateErr := db.Prepare("UPDATE Points SET `totalpoints`=?, `emailaddress`=? WHERE `groupid`=?")
+			if err != nil {
+				fmt.Print(err)
+			}
+			resBalanceUpdate, postBalanceUpdateErr := stBalanceUpdate.Exec(UserBalance, RewardedUser, GroupId)
+			if postBalanceUpdateErr != nil {
+				fmt.Print(postBalanceUpdateErr)
+			}
+			if resBalanceUpdate != nil {
+				result[0] = "Points Subtracted"
+			}
+			result = result[:1]
+
+			// Add purchase to record
+			stPurchase, postPurchaseErr := db.Prepare("INSERT INTO PurchasedRewards(`requestid`, `groupid`, `rewardname`, `pointcost`, `rewarddescription`, `rewardeduser`) VALUES(NULL,?,?,?,?,?)")
+			if postPurchaseErr != nil {
+				fmt.Print(postPurchaseErr)
+			}
+			resPurchase, postPurchaseErr := stPurchase.Exec(GroupId, RewardName, PointCost, RewardDescription, RewardedUser)
+			if postPurchaseErr != nil {
+				fmt.Print(postPurchaseErr)
+			}
+
+			if resPurchase != nil {
+				result[0] = "Purchase Added"
+			}
+
+			result = result[:1]
+		} else {
+			result[0] = "Purchase Rejected"
+			result = result[:1]
+		}
 
 	case PUT:
 		RequestId := request.PostFormValue("RequestId")
