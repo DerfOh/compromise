@@ -30,7 +30,7 @@ public class GetUsers extends AsyncTask<Void, Void, ArrayList> {
         // TODO: attempt authentication against a network service.
 
         try {
-            String url = "http://api.compromise.rocks/api/users/" + mGroup;
+            String url = "https://api.compromise.rocks/api/users/" + mGroup;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

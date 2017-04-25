@@ -20,10 +20,26 @@ dev/*
 *.swo
 *.swp
 *.tgz
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+*.rawproto
+=======
+>>>>>>> master
+>>>>>>> dev-nick
 .DS_Store
 .idea
 .project
 .strong-pm
 coverage
 node_modules
+<<<<<<< Updated upstream
 npm-debug.log
+=======
+npm-debug.log
+>>>>>>> master
+
+*.rawproto
+
+compromise-app/local.properties
+>>>>>>> Stashed changes

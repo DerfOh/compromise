@@ -27,7 +27,7 @@ public class GetPassword extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
         try {
-            String url = "http://api.compromise.rocks/api/retrievepassword/";
+            String url = "https://api.compromise.rocks/api/retrievepassword/";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 

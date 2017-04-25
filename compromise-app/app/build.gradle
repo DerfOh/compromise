@@ -1,12 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+<<<<<<< HEAD
     compileSdkVersion 24
+=======
+    compileSdkVersion 25
+>>>>>>> dev-nick
     buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "edu.umflint.superteam.compromise"
         minSdkVersion 21
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,12 +28,18 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
     compile files('libs/mail.jar')
     compile files('libs/additionnal.jar')
     compile files('libs/activation.jar')
-    compile 'com.aurelhubert:ahbottomnavigation:1.5.1'
+    compile 'com.aurelhubert:ahbottomnavigation:2.0.6'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha8'
+    compile 'com.android.support:support-v4:25.2.0'
+}
+
+repositories {
+    maven { url 'http://repo1.maven.org/maven2' }
+    jcenter { url "http://jcenter.bintray.com/" }
 }

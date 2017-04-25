@@ -27,7 +27,7 @@ public class GetTasks extends AsyncTask<Void, Void, ArrayList<ExpandListGroup>> 
     @Override
     protected ArrayList<ExpandListGroup> doInBackground(Void... params) {
         try {
-            String url = "http://api.compromise.rocks/api/tasks/" + mGroup;
+            String url = "https://api.compromise.rocks/api/tasks/" + mGroup;
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
